@@ -1,6 +1,6 @@
 from django.db import models
 
-from django_utk.db.models.dbview.managers import DBViewManager
+from django_utk.db.models.dbview import DBViewManager
 from django_utk.db.models.dbview.mixins import MaterializedDBViewModelMixin
 
 
