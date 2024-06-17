@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 __all__ = [
@@ -15,7 +14,7 @@ class UpdatedAtField(models.DateTimeField):
 
     def __init__(self, *args, **kwargs):
         kwargs.update(self._required_kwargs)
-        super().__init__(self, *args, **kwargs)
+        models.DateTimeField.__init__(self, *args, **kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
