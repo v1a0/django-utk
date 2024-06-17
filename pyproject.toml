@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["django_utk"]
+
+
+[project]
+version = "0.0.2"
+name = "django-utk"
+description = "The most useful tools for any django project"
+authors = [
+    {name="v1a0", email="contact@v1a0.dev"},
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = ["feed", "reader", "tutorial"]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Framework :: Django"
+]
+dependencies = [
+    "Django == 5.0.6",
+]
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools"]
+
+[project.urls]
+Homepage = "https://github.com/v1a0/django-utk"
+Issues = "https://github.com/v1a0/django-utk/issues"
+
+[tool.bumpver]
+current_version = "0.0.2"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = true
+tag = true
+push = true
+
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"'
+]
+"django_utk/__init__.py" = [
+    "{version}"
+]
+"README.md" = [
+    "{version}",
+    "{pep440_version}",
+]
