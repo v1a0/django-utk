@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'test_model_sqlview',
+    'test_models_sqlview',
+    'test_models_timestamped',
 ]
 
 MIDDLEWARE = [

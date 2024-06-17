@@ -1,6 +1,6 @@
 # Custom project ignore
 *.sqlite3
-tests/test_project/django_utk/
+testcase/test_project/django_utk/
 
 
 # Created by .ignore support plugin (hsz.mobi)
