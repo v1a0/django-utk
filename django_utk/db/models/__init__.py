@@ -12,5 +12,5 @@ __all__ = [
     *base_all,
     *dbview_all,
     *temestamped_all,
-    *fields_all
+    *fields_all,
 ]
