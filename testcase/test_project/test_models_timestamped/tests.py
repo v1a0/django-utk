@@ -16,15 +16,11 @@ frozen_time_2 = timezone.now()
 class TimeStampedModelTestCase(ModelFieldsTestCase, TestCase):
     model = TimeStampedNote
     required_fields = {
-        "created_at": {
-            **CreatedAtField._required_kwargs
-        },
-        "updated_at": {
-            **UpdatedAtField._required_kwargs
-        },
+        "created_at": {**CreatedAtField._required_kwargs},
+        "updated_at": {**UpdatedAtField._required_kwargs},
     }
 
-    @patch('django.utils.timezone.now')
+    @patch("django.utils.timezone.now")
     def test__fields__created_at(self, mock_now: MagicMock):
         """
         Checking is created_at works correctly
@@ -46,7 +42,7 @@ class TimeStampedModelTestCase(ModelFieldsTestCase, TestCase):
         self.assertEqual(note_1.created_at, frozen_time_1)
         self.assertEqual(note_2.created_at, frozen_time_1)
 
-    @patch('django.utils.timezone.now')
+    @patch("django.utils.timezone.now")
     def test__fields__updated_at(self, mock_now: MagicMock):
         """
         Checking is created_at works correctly

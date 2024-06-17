@@ -38,7 +38,7 @@ class ModelFieldsTestCase(ABC):
 
         self.assertFalse(
             lost_fields_name,
-            f"Model does not implementing some of required fields: {lost_fields_name}"
+            f"Model does not implementing some of required fields: {lost_fields_name}",
         )
 
         for required_field_name, required_field_kw in required_fields.items():
