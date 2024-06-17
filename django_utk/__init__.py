@@ -5,4 +5,4 @@ The most useful tools for any django project
 
 """
 
-__version__ = "{version}"
+__version__ = "0.0.1"
