@@ -1,4 +1,4 @@
-# Django Ultimate Toolkit (v0.0.1)
+# Django Ultimate Toolkit 0.0.1
 
 The most useful tools for any django project
 
