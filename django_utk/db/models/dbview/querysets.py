@@ -2,6 +2,7 @@ from typing import Never, NoReturn
 
 from django.db import models
 
+
 __all__ = [
     "DBViewQuerySet",
 ]
@@ -10,7 +11,9 @@ __all__ = [
 class DBViewQuerySet(models.QuerySet):
     @classmethod
     def raise__method_not_allowed(cls, *args, **kwargs) -> NoReturn:
-        raise AssertionError(f"Method is not allowed, for class '{cls.__name__}' due to it's db view")
+        raise AssertionError(
+            f"Method is not allowed, for class '{cls.__name__}' due to it's db view"
+        )
 
     def _batched_insert(self, *args, **kwargs) -> Never:
         self.raise__method_not_allowed()
@@ -35,4 +38,3 @@ class DBViewQuerySet(models.QuerySet):
 
     def update_or_create(self, *args, **kwargs) -> Never:
         self.raise__method_not_allowed()
-
