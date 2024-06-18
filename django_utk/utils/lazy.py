@@ -16,12 +16,11 @@ class Lazy(partial):
 
 
 class LazyCallable(ABC):
-    @abstractmethod
-    def caller(self, *args, **kwargs):
+    def wrapped(self, *args, **kwargs):
         raise NotImplemented
 
     def __call__(self, *args, **kwargs):
-        return self.caller(*args, **kwargs)
+        return self.wrapped(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):
-        self.caller = Lazy(self.caller, *args, **kwargs)
+        self.wrapped = Lazy(self.wrapped, *args, **kwargs)
