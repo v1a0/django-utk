@@ -3,74 +3,93 @@ from unittest import TestCase
 from django_utk.tests import faker
 from django_utk.tests.run_n_times import run_10k_times
 
-A_NUMBER = 42
-B_NUMBER = A_NUMBER + A_NUMBER
 
+class RandNumericTestCase:
+    NumericFactory = NotImplemented
 
-class RandIntTestCase(TestCase):
+    a = NotImplemented
+    b = NotImplemented
+    return_type = NotImplemented
+
     @run_10k_times
     def test_default(self):
-        rand_int = faker.RandInt()
-        value = rand_int()
+        rand_fct = self.NumericFactory()
+        value = rand_fct()
 
-        self.assertIsInstance(value, int)
-        self.assertGreaterEqual(value, faker.RandInt.MIN)
-        self.assertLessEqual(value, faker.RandInt.MAX)
+        self.assertIsInstance(value, self.return_type)
+        self.assertGreaterEqual(value, self.NumericFactory.MIN)
+        self.assertLessEqual(value, self.NumericFactory.MAX)
 
     @run_10k_times
     def test_gte(self):
-        rand_int_1 = faker.RandInt()
-        rand_int_2 = faker.RandInt(A_NUMBER)
-        rand_int_3 = faker.RandInt(a=A_NUMBER)
+        rand_fct_1 = self.NumericFactory()
+        rand_fct_2 = self.NumericFactory(self.a)
+        rand_fct_3 = self.NumericFactory(a=self.a)
 
-        value_1 = rand_int_1(a=A_NUMBER)
-        value_2 = rand_int_2()
-        value_3 = rand_int_3()
+        value_1 = rand_fct_1(a=self.a)
+        value_2 = rand_fct_2()
+        value_3 = rand_fct_3()
 
-        self.assertGreaterEqual(value_1, A_NUMBER)
-        self.assertGreaterEqual(value_2, A_NUMBER)
-        self.assertGreaterEqual(value_3, A_NUMBER)
+        self.assertGreaterEqual(value_1, self.a)
+        self.assertGreaterEqual(value_2, self.a)
+        self.assertGreaterEqual(value_3, self.a)
 
-        self.assertLessEqual(value_1, faker.RandInt.MAX)
-        self.assertLessEqual(value_2, faker.RandInt.MAX)
-        self.assertLessEqual(value_3, faker.RandInt.MAX)
+        self.assertLessEqual(value_1, self.NumericFactory.MAX)
+        self.assertLessEqual(value_2, self.NumericFactory.MAX)
+        self.assertLessEqual(value_3, self.NumericFactory.MAX)
 
     @run_10k_times
     def test_lte(self):
-        rand_int_1 = faker.RandInt()
-        rand_int_2 = faker.RandInt(b=A_NUMBER)
+        rand_fct_1 = self.NumericFactory()
+        rand_fct_2 = self.NumericFactory(b=self.a)
 
-        value_1 = rand_int_1(b=A_NUMBER)
-        value_2 = rand_int_2()
+        value_1 = rand_fct_1(b=self.a)
+        value_2 = rand_fct_2()
 
-        self.assertGreaterEqual(value_1, faker.RandInt.MIN)
-        self.assertGreaterEqual(value_2, faker.RandInt.MIN)
+        self.assertGreaterEqual(value_1, self.NumericFactory.MIN)
+        self.assertGreaterEqual(value_2, self.NumericFactory.MIN)
 
-        self.assertLessEqual(value_1, A_NUMBER)
-        self.assertLessEqual(value_2, A_NUMBER)
+        self.assertLessEqual(value_1, self.a)
+        self.assertLessEqual(value_2, self.a)
 
     @run_10k_times
     def test_gte_lte(self):
-        rand_int_1 = faker.RandInt()
-        rand_int_2 = faker.RandInt(A_NUMBER, B_NUMBER)
-        rand_int_3 = faker.RandInt(a=A_NUMBER, b=B_NUMBER)
-        rand_int_4 = faker.RandInt(a=A_NUMBER)
-        rand_int_5 = faker.RandInt(b=B_NUMBER)
+        rand_fct_1 = self.NumericFactory()
+        rand_fct_2 = self.NumericFactory(self.a, self.b)
+        rand_fct_3 = self.NumericFactory(a=self.a, b=self.b)
+        rand_fct_4 = self.NumericFactory(a=self.a)
+        rand_fct_5 = self.NumericFactory(b=self.b)
 
-        value_1 = rand_int_1(a=A_NUMBER, b=B_NUMBER)
-        value_2 = rand_int_2()
-        value_3 = rand_int_3()
-        value_4 = rand_int_4(b=B_NUMBER)
-        value_5 = rand_int_5(a=A_NUMBER)
+        value_1 = rand_fct_1(a=self.a, b=self.b)
+        value_2 = rand_fct_2()
+        value_3 = rand_fct_3()
+        value_4 = rand_fct_4(b=self.b)
+        value_5 = rand_fct_5(a=self.a)
 
-        self.assertGreaterEqual(value_1, A_NUMBER)
-        self.assertGreaterEqual(value_2, A_NUMBER)
-        self.assertGreaterEqual(value_3, A_NUMBER)
-        self.assertGreaterEqual(value_4, A_NUMBER)
-        self.assertGreaterEqual(value_5, A_NUMBER)
+        self.assertGreaterEqual(value_1, self.a)
+        self.assertGreaterEqual(value_2, self.a)
+        self.assertGreaterEqual(value_3, self.a)
+        self.assertGreaterEqual(value_4, self.a)
+        self.assertGreaterEqual(value_5, self.a)
 
-        self.assertLessEqual(value_1, B_NUMBER)
-        self.assertLessEqual(value_2, B_NUMBER)
-        self.assertLessEqual(value_3, B_NUMBER)
-        self.assertLessEqual(value_4, B_NUMBER)
-        self.assertLessEqual(value_5, B_NUMBER)
+        self.assertLessEqual(value_1, self.b)
+        self.assertLessEqual(value_2, self.b)
+        self.assertLessEqual(value_3, self.b)
+        self.assertLessEqual(value_4, self.b)
+        self.assertLessEqual(value_5, self.b)
+
+
+class RandIntTestCase(RandNumericTestCase, TestCase):
+    NumericFactory = faker.RandInt
+
+    a = 42
+    b = a + a
+    return_type = int
+
+
+class RandFloatTestCase(RandNumericTestCase, TestCase):
+    NumericFactory = faker.RandFloat
+
+    a = 42.42
+    b = a + a
+    return_type = float
