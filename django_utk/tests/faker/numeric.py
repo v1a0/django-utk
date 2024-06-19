@@ -19,8 +19,8 @@ class RandInt(LazyCallable):
 
 class RandFloat(LazyCallable):
     wrapped = random.uniform
-    MIN = -1.7976931348623158e308
-    MAX = +1.7976931348623158e308
+    MIN = -1e300
+    MAX = +1e300
 
     def __init__(self, a: float = MIN, b: float = MAX):
         super(RandFloat, self).__init__(a=a, b=b)
