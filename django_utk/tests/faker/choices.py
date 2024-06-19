@@ -14,5 +14,5 @@ class RandChoices(LazyCallable):
 
     __call__: Callable[[], Any]
 
-    def __init__(self, choices: Iterable[Any]):
-        super().__init__(choices)
+    def __init__(self, population: Iterable[Any]):
+        super().__init__(population=population)
