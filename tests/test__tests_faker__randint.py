@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from django_utk.tests import faker
-from django_utk.tests.utils import run_10k_times
+from django_utk.tests.run_n_times import run_10k_times
 
 A_NUMBER = 42
 B_NUMBER = A_NUMBER + A_NUMBER
