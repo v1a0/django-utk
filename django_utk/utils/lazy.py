@@ -19,8 +19,8 @@ class LazyCallable(ABC):
     def wrapped(self, *args, **kwargs):
         raise NotImplemented
 
-    def __call__(self, *args, **kwargs):
-        return self.wrapped(*args, **kwargs)
+    def __call__(self, **kwargs):
+        return self.wrapped(**kwargs)
 
     def __init__(self, *args, **kwargs):
         self.wrapped = Lazy(self.wrapped, *args, **kwargs)
