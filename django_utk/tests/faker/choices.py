@@ -4,6 +4,11 @@ from typing import Iterable, Any, Callable
 from django_utk.utils.lazy import LazyCallable
 
 
+__all__ = [
+    "RandChoices",
+]
+
+
 class RandChoices(LazyCallable):
     wrapped = random.choices
 

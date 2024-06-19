@@ -4,6 +4,11 @@ import string
 from django_utk.utils.lazy import LazyCallable
 
 
+__all__ = [
+    "RandString",
+]
+
+
 class RandString(LazyCallable):
     wrapped = None
     ALPHABET = string.hexdigits

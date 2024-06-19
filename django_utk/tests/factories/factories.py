@@ -4,7 +4,7 @@ from typing import Type, Callable, Dict
 from django.db import models
 
 from django_utk.utils.lazy import Lazy, LazyCallable
-from tests.factories.sequences import BaseSequence
+from tests.faker.sequences import BaseSequence
 
 
 class SubFactory(Lazy):
@@ -54,9 +54,7 @@ class FactoryMeta(ABCMeta):
 
             for attr_name, attr_value in attrs.items():
 
-                is_attr_method = callable(attr_value) and not isinstance(
-                    attr_value, (SubFactory, BaseSequence, Lazy, LazyCallable)
-                )
+                is_attr_method = FactoryMeta.is_attr_method(attr_name, attr_value)
 
                 if not is_attr_method:
                     new_class._meta.fields[attr_name] = FieldFactory.from_any(
@@ -64,6 +62,12 @@ class FactoryMeta(ABCMeta):
                     )
 
         return new_class
+
+    @staticmethod
+    def is_attr_method(attr_name: str, attr_value: any):
+        return callable(attr_value) and not isinstance(
+            attr_value, (SubFactory, BaseSequence, Lazy, LazyCallable)
+        )
 
 
 class BaseFactory(ABC):
