@@ -12,7 +12,7 @@ class RandNumericTestCase:
     return_type = NotImplemented
 
     @run_10k_times
-    def test_default(self):
+    def test__default(self):
         rand_fct = self.NumericFactory()
         value = rand_fct()
 
@@ -21,7 +21,7 @@ class RandNumericTestCase:
         self.assertLessEqual(value, self.NumericFactory.MAX)
 
     @run_10k_times
-    def test_gte(self):
+    def test__gte(self):
         rand_fct_1 = self.NumericFactory()
         rand_fct_2 = self.NumericFactory(self.a)
         rand_fct_3 = self.NumericFactory(a=self.a)
@@ -39,7 +39,7 @@ class RandNumericTestCase:
         self.assertLessEqual(value_3, self.NumericFactory.MAX)
 
     @run_10k_times
-    def test_lte(self):
+    def test__lte(self):
         rand_fct_1 = self.NumericFactory()
         rand_fct_2 = self.NumericFactory(b=self.a)
 
@@ -53,7 +53,7 @@ class RandNumericTestCase:
         self.assertLessEqual(value_2, self.a)
 
     @run_10k_times
-    def test_gte_lte(self):
+    def test__gte_lte(self):
         rand_fct_1 = self.NumericFactory()
         rand_fct_2 = self.NumericFactory(self.a, self.b)
         rand_fct_3 = self.NumericFactory(a=self.a, b=self.b)
