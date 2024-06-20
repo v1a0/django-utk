@@ -10,15 +10,14 @@ __all__ = [
 
 
 class RandString(LazyCallable):
-    wrapped = None
     ALPHABET = string.hexdigits
     LENGTH = 32
 
-    def __call__(self, length: int) -> str:
-        return "".join(random.choices(self.alphabet, k=length))
+    def wrapped(self, length: int, alphabet: str):
+        return "".join(random.choices(alphabet, k=length))
 
     def __init__(self, length: int = LENGTH, *, alphabet: str = None):
-        if alphabet is not None:
-            self.alphabet = self.ALPHABET
+        if alphabet is None:
+            alphabet = self.ALPHABET
 
-        super().__init__(length=length)
+        super().__init__(length=length, alphabet=alphabet)

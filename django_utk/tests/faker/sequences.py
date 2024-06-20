@@ -3,6 +3,13 @@ from typing import Callable, TypeVar, Generator, Iterable, Any
 
 from black.trans import abstractmethod
 
+
+__all__ = [
+    "Sequence",
+    "ForEach",
+]
+
+
 T = TypeVar("T")
 
 
@@ -19,8 +26,6 @@ class BaseSequence(ABC):
 
 
 class Sequence(BaseSequence):
-    default_handler = lambda x: x
-
     def __init__(
         self,
         handler: Callable[[int], T] = None,
@@ -34,7 +39,7 @@ class Sequence(BaseSequence):
         self.end = end
         self.current = start
 
-        super(BaseSequence, self).__init__()
+        super().__init__()
 
     def get_sequencer(self) -> Generator[Any, None, None]:
         if self.end is not None:
@@ -45,6 +50,10 @@ class Sequence(BaseSequence):
             while True:
                 yield self.handler(self.current)
                 self.current += self.step
+
+    @staticmethod
+    def default_handler(x: int) -> int:
+        return x
 
 
 class ForEach(BaseSequence):

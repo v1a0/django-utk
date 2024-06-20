@@ -6,13 +6,23 @@ from django_utk.utils.lazy import LazyCallable
 
 __all__ = [
     "RandChoices",
+    "RandChoice",
 ]
 
 
 class RandChoices(LazyCallable):
     wrapped = random.choices
 
-    __call__: Callable[[], Any]
+    def __init__(self, population: Iterable[Any], k=1, *, weights: list[int] = None, cum_weights: list[int] = None):
+        super().__init__(population=population, weights=weights, cum_weights=cum_weights, k=k)
 
-    def __init__(self, population: Iterable[Any]):
-        super().__init__(population=population)
+
+class RandChoice(RandChoices):
+    def __init__(self, population: Iterable[Any], *, weights: list[int] = None, cum_weights: list[int] = None):
+        super().__init__(population=population, weights=weights, cum_weights=cum_weights, k=1)
+
+    def wrapped(self, **kwargs):
+        try:
+            return super().wrapped(**kwargs)[0]
+        except IndexError:
+            return None
