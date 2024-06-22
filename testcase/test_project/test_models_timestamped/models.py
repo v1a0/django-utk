@@ -1,6 +1,6 @@
 from django.db import models
 
-from django_utk.db.fields import CreatedAtField, UpdatedAtField
+from django_utk.db.models.timestamped import CreatedAtField, UpdatedAtField
 from django_utk.db.models import TimeStampedModel
 
 
