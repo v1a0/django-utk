@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class BaseSoftDeleteModel(models.Model):
+class BaseSoftDeleteModel:
     deleted_at = models.DateTimeField(
         verbose_name=_("Deleted at"),
         default=None,
@@ -20,11 +20,8 @@ class BaseSoftDeleteModel(models.Model):
         blank=True,
     )
 
-    class Meta:
-        abstract = True
 
-
-class SoftDeleteModel(BaseSoftDeleteModel):
+class SoftDeleteModel(BaseSoftDeleteModel, models.Model):
     deleted_at: models.DateTimeField
 
     objects = SoftDeleteManager()
@@ -36,7 +33,7 @@ class SoftDeleteModel(BaseSoftDeleteModel):
     def validate_existence(self, action: str):
         if self.pk is None:
             raise ValueError(
-                "Failed to {action} object {obj_name} because its {pk_attname} attribute is set to None".format(
+                "Failed to {action} object {obj_name} because it's {pk_attname} attribute is set to None".format(
                     action=action,
                     obj_name=meta(self).object_name,
                     pk_attname=meta(self).pk.attname,
@@ -44,11 +41,11 @@ class SoftDeleteModel(BaseSoftDeleteModel):
             )
 
     def delete(self, **kwargs):
-        self.validate_existence(action="delete")
+        self.validate_existence(action=SoftDeleteModel.delete.__name__)
         model = type(self)
         model.all_objects.filter(pk=self.pk).delete()
 
     def restore(self):
-        self.validate_existence(action="restore")
+        self.validate_existence(action=SoftDeleteModel.restore.__name__)
         model = type(self)
         model.all_objects.filter(pk=self.pk).restore()
