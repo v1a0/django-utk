@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "test_models_sqlview",
     "test_models_timestamped",
+    "test_models_softdelete",
 ]
 
 MIDDLEWARE = [
