@@ -1,15 +1,21 @@
 from django.db import models
 
+from common.abc import ABCManager
 from django_utk.db.models.softdelete.querysets import SoftDeleteQuerySet
 
 
 __all__ = [
+    "BaseSoftDeleteManager",
     "SoftDeleteManager",
 ]
 
 
-class SoftDeleteManager(models.Manager):
+class BaseSoftDeleteManager(ABCManager):
+    QuerySetClass = SoftDeleteQuerySet
+
     def get_queryset(self):
-        return SoftDeleteQuerySet(self.model, using=self._db).filter(
-            deleted_at__isnull=True
-        )
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+
+class SoftDeleteManager(BaseSoftDeleteManager, models.Manager):
+    pass
