@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Mapping, Any
+from typing import Any, Mapping
 
 from django.db import models
 from django.db.models import Field
@@ -38,7 +38,7 @@ class ModelFieldsTestCase(ABC):
 
         self.assertFalse(
             lost_fields_name,
-            f"Model does not implementing some of required fields: {lost_fields_name}"
+            f"Model does not implementing some of required fields: {lost_fields_name}",
         )
 
         for required_field_name, required_field_kw in required_fields.items():

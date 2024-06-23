@@ -1,4 +1,7 @@
-
+```shell
+black .
+isort . --profile black
+```
 
 # update version
 

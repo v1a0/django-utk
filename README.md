@@ -11,6 +11,30 @@ The most useful tools for any django project
   - Fields
     - CreatedAtField
     - UpdatedAtField
+  - Managers
+    - TimeStampedManager
+    - SoftDeleteManager
+    - DBViewManager
+  - Fixes
+    - DeleteUsingManager
+- Tests
+  - Factories ⭐️
+  - faker
+    - Sequence
+    - RandInt
+    - RandFloat
+    - RandChoices
+    - RandChoice
+    - RandString
+    - ForEach
 - Misc
   - Singleton 
-
+- Utils
+  - typehint 
+  - get_model_meta
+  - Lazy
+  - LazyCallable
+  - env
+    - PYTHON_VERSION
+  - popitem
+  - EMPTY
