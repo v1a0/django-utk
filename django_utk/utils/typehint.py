@@ -48,6 +48,7 @@ def typehint(typed_method: callable = None, *, source: type = None):
             def super_proxy(self, *args, **kwargs):
                 if isinstance(self, type):
                     cls = self
+                    args = (self, *args)
                 else:
                     cls = type(self)
 
