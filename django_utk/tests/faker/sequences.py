@@ -1,7 +1,5 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Callable, TypeVar, Generator, Iterable, Any
-
-from black.trans import abstractmethod
 
 
 __all__ = [
