@@ -30,8 +30,11 @@ The most useful tools for any django project
 - Misc
   - Singleton 
 - Utils
+  - typehint 
   - get_model_meta
   - Lazy
   - LazyCallable
   - env
     - PYTHON_VERSION
+  - popitem
+  - EMPTY
