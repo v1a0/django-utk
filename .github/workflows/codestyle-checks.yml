@@ -23,7 +23,7 @@ jobs:
         pip install black isort
     - name: Run Isort
       run: |
-        isort $(git ls-files '*.py') --check-only
+        isort $(git ls-files '*.py') --check-only --profile black
     - name: Run Black
       run: |
         black $(git ls-files '*.py') --check --verbose --diff --color
