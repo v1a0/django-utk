@@ -10,5 +10,3 @@ class BaseTimeStampedManager(ABCManager):
 
 class TimeStampedManager(BaseTimeStampedManager, models.Manager):
     pass
-
-

@@ -1,6 +1,4 @@
-__all__ = [
-    "EMPTY"
-]
+__all__ = ["EMPTY"]
 
 
 class EMPTY:

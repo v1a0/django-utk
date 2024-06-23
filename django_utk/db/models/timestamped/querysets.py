@@ -25,7 +25,9 @@ class TimeStampedQuerySet(models.QuerySet):
 
     def create(self, *, skip_timestamping=False, **kwargs):
         if not skip_timestamping:
-            kwargs[self._created_at_attr] = kwargs[self._updated_at_attr] = timezone.now()
+            kwargs[self._created_at_attr] = kwargs[self._updated_at_attr] = (
+                timezone.now()
+            )
 
         return super().create(**kwargs)
 
@@ -35,7 +37,7 @@ class TimeStampedQuerySet(models.QuerySet):
 
         return super().update(**kwargs)
 
-    def bulk_create(self, objs,  *args, skip_timestamping=False, **kwargs):
+    def bulk_create(self, objs, *args, skip_timestamping=False, **kwargs):
         if not skip_timestamping:
             set_timestamp_for_each(objs, [self._created_at_attr, self._updated_at_attr])
 
@@ -53,7 +55,7 @@ class TimeStampedQuerySet(models.QuerySet):
 
         return super().bulk_update(objs, *args, **kwargs)
 
-    def abulk_update(self, objs, *args, skip_timestamping=False,  **kwargs):
+    def abulk_update(self, objs, *args, skip_timestamping=False, **kwargs):
         if not skip_timestamping:
             set_timestamp_for_each(objs, [self._updated_at_attr])
 

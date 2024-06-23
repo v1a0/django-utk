@@ -42,8 +42,12 @@ class RunNTimesTestCase(TestCase):
         for i in range(small_int()):
             lazy_func()
             self.assertEqual(original_func.call_count, i + 1)
-            self.assertListEqual(list(original_func.call_args_list[i].args), initial_args)
-            self.assertDictEqual(dict(original_func.call_args_list[i].kwargs), initial_kwargs)
+            self.assertListEqual(
+                list(original_func.call_args_list[i].args), initial_args
+            )
+            self.assertDictEqual(
+                dict(original_func.call_args_list[i].kwargs), initial_kwargs
+            )
 
     def test__initial_args__and__post_args(self):
         args = [rand_str() for _ in range(small_int())]
@@ -60,11 +64,21 @@ class RunNTimesTestCase(TestCase):
         calls_count, _ = (calls_count + 1), lazy_func(*args, **kwargs)
 
         self.assertEqual(original_func.call_count, calls_count)
-        self.assertListEqual(list(original_func.call_args_list[calls_count-1].args), [*initial_args, *args])
-        self.assertDictEqual(dict(original_func.call_args_list[calls_count-1].kwargs), {**kwargs, **initial_kwargs})
+        self.assertListEqual(
+            list(original_func.call_args_list[calls_count - 1].args),
+            [*initial_args, *args],
+        )
+        self.assertDictEqual(
+            dict(original_func.call_args_list[calls_count - 1].kwargs),
+            {**kwargs, **initial_kwargs},
+        )
 
         calls_count, _ = (calls_count + 1), lazy_func()
 
         self.assertEqual(original_func.call_count, calls_count)
-        self.assertListEqual(list(original_func.call_args_list[calls_count - 1].args), initial_args)
-        self.assertDictEqual(dict(original_func.call_args_list[calls_count - 1].kwargs), initial_kwargs)
+        self.assertListEqual(
+            list(original_func.call_args_list[calls_count - 1].args), initial_args
+        )
+        self.assertDictEqual(
+            dict(original_func.call_args_list[calls_count - 1].kwargs), initial_kwargs
+        )

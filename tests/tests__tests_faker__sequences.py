@@ -71,4 +71,3 @@ class ForEachTestCase(TestCase):
 
         for i in range(self.ITEMS_LEN):
             self.assertEqual(foreach_fct(), self.ITEMS[i])
-

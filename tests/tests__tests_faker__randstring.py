@@ -21,7 +21,9 @@ class RandStringTestCase(TestCase):
     def test_default(self):
         string_fct = faker.RandString()
 
-        self.assertResultValid(string_fct, faker.RandString.LENGTH, faker.RandString.ALPHABET)
+        self.assertResultValid(
+            string_fct, faker.RandString.LENGTH, faker.RandString.ALPHABET
+        )
 
     def test__alphabet(self):
         for alphabet_len in range(1, self.A):
