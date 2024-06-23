@@ -20,8 +20,8 @@ class RunNTimesTestCase(TestCase):
         for i in range(small_int()):
             lazy_func()
             self.assertEqual(original_func.call_count, i + 1)
-            self.assertListEqual(list(original_func.call_args_list[i].args), list(args))
-            self.assertDictEqual(dict(original_func.call_args_list[i].kwargs), dict(kwargs))
+            self.assertListEqual(list(original_func.call_args_list[i].args), args)
+            self.assertDictEqual(dict(original_func.call_args_list[i].kwargs), kwargs)
 
     def test__post_args(self):
         original_func = MagicMock()
@@ -42,8 +42,8 @@ class RunNTimesTestCase(TestCase):
         for i in range(small_int()):
             lazy_func()
             self.assertEqual(original_func.call_count, i + 1)
-            self.assertListEqual(list(original_func.call_args_list[i].args), list(initial_args))
-            self.assertDictEqual(dict(original_func.call_args_list[i].kwargs), dict(initial_kwargs))
+            self.assertListEqual(list(original_func.call_args_list[i].args), initial_args)
+            self.assertDictEqual(dict(original_func.call_args_list[i].kwargs), initial_kwargs)
 
     def test__initial_args__and__post_args(self):
         args = [rand_str() for _ in range(small_int())]
@@ -52,10 +52,19 @@ class RunNTimesTestCase(TestCase):
         kwargs = {rand_str(): rand_str() for _ in range(small_int())}
         initial_kwargs = {rand_str(): rand_str() for _ in range(small_int())}
 
+        calls_count = 0
+
         original_func = MagicMock()
         lazy_func = Lazy(original_func, *initial_args, **initial_kwargs)
 
-        calls, _ = 1, lazy_func(*args, **kwargs)
+        calls_count, _ = (calls_count + 1), lazy_func(*args, **kwargs)
 
-        self.assertEqual(len(original_func.call_args_list[0].args), len([*args, *initial_args]))
-        self.assertEqual(len(original_func.call_args_list[0].kwargs), len({**kwargs, **initial_kwargs}))
+        self.assertEqual(original_func.call_count, calls_count)
+        self.assertListEqual(list(original_func.call_args_list[calls_count-1].args), [*initial_args, *args])
+        self.assertDictEqual(dict(original_func.call_args_list[calls_count-1].kwargs), {**kwargs, **initial_kwargs})
+
+        calls_count, _ = (calls_count + 1), lazy_func()
+
+        self.assertEqual(original_func.call_count, calls_count)
+        self.assertListEqual(list(original_func.call_args_list[calls_count - 1].args), initial_args)
+        self.assertDictEqual(dict(original_func.call_args_list[calls_count - 1].kwargs), initial_kwargs)
