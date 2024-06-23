@@ -1,6 +1,6 @@
 from django.db.models.manager import BaseManager
 
-from django_utk.db.models.softdelete import models, managers, querysets
+from django_utk.db.models.softdelete import managers, models, querysets
 
 
 class SomeQS(querysets.SoftDeleteQuerySet):

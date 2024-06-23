@@ -1,10 +1,10 @@
-from abc import ABCMeta, abstractmethod, ABC
-from typing import Type, Callable, Dict, List
+from abc import ABC, ABCMeta, abstractmethod
+from typing import Callable, Dict, List, Type
 
 from django.db import models
 
-from django_utk.utils.lazy import Lazy, LazyCallable
 from django_utk.tests.faker.sequences import BaseSequence
+from django_utk.utils.lazy import Lazy, LazyCallable
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint
 

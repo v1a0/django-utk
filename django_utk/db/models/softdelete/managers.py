@@ -1,8 +1,7 @@
+from common.abc import ABCManager
 from django.db import models
 
-from common.abc import ABCManager
 from django_utk.db.models.softdelete.querysets import SoftDeleteQuerySet
-
 
 __all__ = [
     "BaseSoftDeleteManager",

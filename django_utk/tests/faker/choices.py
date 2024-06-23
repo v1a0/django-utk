@@ -1,8 +1,7 @@
 import random
-from typing import Iterable, Any, Callable
+from typing import Any, Callable, Iterable
 
 from django_utk.utils.lazy import LazyCallable
-
 
 __all__ = [
     "RandChoices",

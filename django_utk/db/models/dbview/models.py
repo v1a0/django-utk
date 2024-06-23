@@ -1,9 +1,8 @@
 from django.db import models
 
+from django_utk.db.models import fix
 from django_utk.db.models.dbview import DBViewManager
 from django_utk.db.models.dbview.mixins import MaterializedDBViewModelMixin
-from django_utk.db.models import fix
-
 
 __all__ = [
     "DBViewModel",

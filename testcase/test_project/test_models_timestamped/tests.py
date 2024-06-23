@@ -1,12 +1,12 @@
 from datetime import datetime
-from unittest.mock import patch, MagicMock
-
-from django.test import TestCase
-from django.utils import timezone
+from unittest.mock import MagicMock, patch
 
 from common.testcases.model_fields_testcase import ModelFieldsTestCase
-from django_utk.db.fields import CreatedAtField, UpdatedAtField
+from django.test import TestCase
+from django.utils import timezone
 from test_models_timestamped.models import TimeStampedNote
+
+from django_utk.db.fields import CreatedAtField, UpdatedAtField
 
 rand_text = lambda: str(datetime.now())
 frozen_time_1 = timezone.now()

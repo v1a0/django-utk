@@ -7,7 +7,6 @@ from django_utk.tests.faker.sequences import __all__ as sequences_all
 from django_utk.tests.faker.strings import *
 from django_utk.tests.faker.strings import __all__ as choices_all
 
-
 __all__ = [
     *choices_all,
     *numeral_all,

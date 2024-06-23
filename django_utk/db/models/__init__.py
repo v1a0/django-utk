@@ -7,7 +7,6 @@ from django_utk.db.models.timestamped import __all__ as temestamped_all
 from django_utk.db.models.timestamped.fields import *
 from django_utk.db.models.timestamped.fields import __all__ as fields_all
 
-
 __all__ = [
     *base_all,
     *dbview_all,

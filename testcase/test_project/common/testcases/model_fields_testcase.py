@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Mapping, Any
+from typing import Any, Mapping
 
 from django.db import models
 from django.db.models import Field

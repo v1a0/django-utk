@@ -5,7 +5,6 @@ from django_utk.db.models.softdelete import SoftDeleteQuerySet
 from django_utk.db.models.softdelete.managers import SoftDeleteManager
 from django_utk.db.models.utils import get_model_meta as meta
 
-
 __all__ = [
     "BaseSoftDeleteModel",
     "SoftDeleteModel",

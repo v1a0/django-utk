@@ -3,7 +3,6 @@ from typing import Iterable
 from django.db import models
 from django.utils import timezone
 
-
 __all__ = [
     "TimeStampedQuerySet",
 ]

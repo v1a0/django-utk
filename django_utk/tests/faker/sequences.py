@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar, Generator, Iterable, Any
-
+from typing import Any, Callable, Generator, Iterable, TypeVar
 
 __all__ = [
     "Sequence",
