@@ -6,6 +6,7 @@ from django.db import models
 from django_utk.utils.lazy import Lazy, LazyCallable
 from django_utk.tests.faker.sequences import BaseSequence
 from django_utk.utils.popattr import popattr
+from django_utk.utils.typehint import typehint
 
 
 class FieldFactory:
@@ -38,10 +39,6 @@ class FactoryOptions:
         self.fields = getattr(options, "fields", None)
         self.fields_set = getattr(options, "fields_set", dict())
         self.factory = factory
-
-
-class SubFactory(Lazy):
-    pass
 
 
 class FactoryMeta(ABCMeta):
@@ -163,3 +160,9 @@ class Factory(BaseFactory, metaclass=FactoryMeta):
         """
         objs = super().create_batch(count, **kwargs)
         return cls._meta.model.objects.bulk_create(objs)
+
+
+class SubFactory(Lazy):
+    @typehint
+    def ___new__(self, factory: Factory, **kwargs) -> "SubFactory":
+        pass
