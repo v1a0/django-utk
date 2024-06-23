@@ -4,15 +4,16 @@ from unittest.mock import MagicMock
 
 from django_utk.tests import faker
 from django_utk.tests.factories import Factory
+from django_utk.utils.typehint import typehint
 
 small_int = faker.RandInt(2, 42)
 
 
 class FactoryTestCase(TestCase):
-    def test__init__simple(self):
+    def test__init__const(self):
         PersonModel = MagicMock()
 
-        person_name = "Person Name"
+        person_name = "person-name"
         person_age = 33
         person_fiends = []  # haha
 
@@ -40,7 +41,7 @@ class FactoryTestCase(TestCase):
                 len([person_name, person_age, person_fiends]),
             )
 
-    def test__init__sub_factory(self):
+    def test__init__SubFactory(self):
         @dataclass
         class SkillModel:
             name: str
@@ -56,7 +57,7 @@ class FactoryTestCase(TestCase):
                 pass
 
         class SkillFactory(Factory):
-            name = "Skill Name"
+            name = "skill-name"
 
             class Meta:
                 model = SkillModel
@@ -74,3 +75,125 @@ class FactoryTestCase(TestCase):
 
             self.assertIsInstance(person.skill, SkillModel)
 
+    def test__init__Sequence(self):
+        person_name_suffix = "-person"
+
+        @dataclass
+        class PersonModel:
+            name: str
+
+            def save(self):
+                pass
+
+        class PersonFactory(Factory):
+            name = faker.Sequence(lambda n: f"{n}{person_name_suffix}")
+
+            @typehint
+            def __new__(cls, *args, **kwargs) -> PersonModel:
+                pass
+
+            class Meta:
+                model = PersonModel
+                fields = ["name"]
+
+        for i in range(small_int()):
+            person = PersonFactory()
+
+            self.assertTrue(person.name.endswith(person_name_suffix))
+            self.assertEqual(person.name, f"{i}{person_name_suffix}")
+
+    def test__init__ForEach(self):
+        persons_amount = small_int()
+        persons_names = [f"person-name-{i}" for i in range(persons_amount)]
+
+        @dataclass
+        class PersonModel:
+            name: str
+
+            def save(self):
+                pass
+
+        class PersonFactory(Factory):
+            name = faker.ForEach(persons_names)
+
+            @typehint
+            def __new__(cls, *args, **kwargs) -> PersonModel:
+                pass
+
+            class Meta:
+                model = PersonModel
+                fields = ["name"]
+
+        for i in range(persons_amount):
+            person = PersonFactory()
+
+            self.assertEqual(person.name, persons_names[i])
+
+        with self.assertRaises(StopIteration):
+            PersonFactory()
+
+    def test__init__RandData(self):
+        @dataclass
+        class PersonModel:
+            age: int
+            weight: float
+            name: str
+
+            def save(self):
+                pass
+
+        class PersonFactory(Factory):
+            age = faker.RandInt()
+            weight = faker.RandFloat()
+            name = faker.RandString()
+
+            @typehint
+            def __new__(cls, *args, **kwargs) -> PersonModel:
+                pass
+
+            class Meta:
+                model = PersonModel
+                fields = ["age", "weight", "name"]
+
+        for i in range(small_int()):
+            person = PersonFactory()
+
+            self.assertLessEqual(person.age, faker.RandInt.MAX)
+            self.assertGreaterEqual(person.age, faker.RandInt.MIN)
+
+            self.assertLessEqual(person.weight, faker.RandFloat.MAX)
+            self.assertGreaterEqual(person.weight, faker.RandFloat.MIN)
+            self.assertGreater(len(person.name), 0)
+            self.assertTrue(all(letter in faker.RandString.ALPHABET for letter in person.name))
+
+    def test__init__Choice_and_Choices(self):
+        persons_amount = small_int()
+        persons_names = [f"person-name-{i}" for i in range(persons_amount)]
+
+        @dataclass
+        class PersonModel:
+            name: str
+            friends: list[str]
+
+            def save(self):
+                pass
+
+        class PersonFactory(Factory):
+            name = faker.RandChoice(persons_names)
+            friends = faker.RandChoices(persons_names, k=small_int())
+
+            @typehint
+            def __new__(cls, *args, **kwargs) -> PersonModel:
+                pass
+
+            class Meta:
+                model = PersonModel
+                fields = ["name", "friends"]
+
+        for i in range(small_int()):
+            person = PersonFactory()
+
+            self.assertIn(person.name, persons_names)
+
+            for friend_name in person.friends:
+                self.assertIn(friend_name, persons_names)
