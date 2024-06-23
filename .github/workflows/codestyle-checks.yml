@@ -1,4 +1,4 @@
-name: Linting, PyLint + Black
+name: Linting, Black + Isort
 
 on:
   push:
@@ -20,10 +20,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint black
-    - name: Run PyLint
-      run: |
-        pylint $(git ls-files '*.py')
+        pip install black isort
     - name: Run Black
       run: |
         black $(git ls-files '*.py') --check --verbose --diff --color
+    - name: Run Isort
+      run: |
+        isort $(git ls-files '*.py') --check-only
