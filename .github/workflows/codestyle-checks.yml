@@ -1,4 +1,4 @@
-name: Run tests (main)
+name: Linting, PyLint + Black
 
 on:
   push:
