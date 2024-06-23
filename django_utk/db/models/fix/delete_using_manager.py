@@ -1,9 +1,6 @@
 from django.db import models
 
-
-__all__ = [
-    "DeleteUsingManager"
-]
+__all__ = ["DeleteUsingManager"]
 
 
 class DeleteUsingManager:

@@ -37,7 +37,7 @@ class FactoryTestCase(TestCase):
             self.assertEqual(kwargs["age"], person_age)
             self.assertEqual(kwargs["friends"], person_fiends)
             self.assertEqual(
-                len(kwargs) - 2,    # MagicMock's internal kwargs
+                len(kwargs) - 2,  # MagicMock's internal kwargs
                 len([person_name, person_age, person_fiends]),
             )
 
@@ -164,7 +164,9 @@ class FactoryTestCase(TestCase):
             self.assertLessEqual(person.weight, faker.RandFloat.MAX)
             self.assertGreaterEqual(person.weight, faker.RandFloat.MIN)
             self.assertGreater(len(person.name), 0)
-            self.assertTrue(all(letter in faker.RandString.ALPHABET for letter in person.name))
+            self.assertTrue(
+                all(letter in faker.RandString.ALPHABET for letter in person.name)
+            )
 
     def test__init__Choice_and_Choices(self):
         persons_amount = small_int()

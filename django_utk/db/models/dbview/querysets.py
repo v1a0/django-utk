@@ -2,7 +2,6 @@ from typing import Never, NoReturn
 
 from django.db import models
 
-
 __all__ = [
     "DBViewQuerySet",
 ]

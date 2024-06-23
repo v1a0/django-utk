@@ -1,6 +1,5 @@
 from functools import wraps
 
-
 __all__ = [
     "run_n_times",
     "run_10_times",

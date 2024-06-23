@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from django_utk.db.models.timestamped.fields import CreatedAtField, UpdatedAtField
 from django_utk.db.models.timestamped.managers import TimeStampedManager
 
-
 __all__ = [
     "TimeStampedModel",
 ]

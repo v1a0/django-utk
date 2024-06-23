@@ -1,6 +1,5 @@
 import sys
 
-
 """
 PYTHON_VERSION
     Just shortcut to get current running python interpreter version

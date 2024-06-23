@@ -4,13 +4,11 @@ from unittest.mock import MagicMock
 
 from django_utk.tests import faker
 from django_utk.tests.run_n_times import (
-    run_n_times,
-    run_10_times,
-    run_100_times,
     run_1k_times,
+    run_10_times,
     run_10k_times,
-    # run_100k_times,
-    # run_1m_times,
+    run_100_times,
+    run_n_times,
 )
 
 small_int = faker.RandInt(2, 42)
@@ -27,10 +25,7 @@ class RunNTimesTestCase(TestCase):
             (10_000, run_10k_times),
             # (100_000, run_100k_times),    # FIXME: sorry this thing is too slow
             # (1_000_000, run_1m_times),
-        ] + [
-            (n, run_n_times(n))
-            for n in range(small_int())
-        ]
+        ] + [(n, run_n_times(n)) for n in range(small_int())]
 
         cls.rand_int = faker.RandInt()
         cls.rand_str = faker.RandString(alphabet=string.ascii_letters)

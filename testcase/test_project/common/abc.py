@@ -9,4 +9,3 @@ class ABCManager(ABC):
 
     def get_queryset(self) -> QuerySetClass:
         return self.QuerySetClass(self.model, using=self._db)
-
