@@ -7,6 +7,8 @@ __all__ = [
     "RandString",
 ]
 
+from django_utk.utils.typehint import typehint
+
 
 class RandString(LazyCallable):
     ALPHABET = string.hexdigits
@@ -20,3 +22,7 @@ class RandString(LazyCallable):
             alphabet = self.ALPHABET
 
         super().__init__(length=length, alphabet=alphabet)
+
+    @typehint
+    def __call__(self, *args, **kwargs) -> str:
+        pass
