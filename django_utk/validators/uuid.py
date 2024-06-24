@@ -1,5 +1,5 @@
 import uuid
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 from functools import partial
 
 from validators.base import BaseValidator
