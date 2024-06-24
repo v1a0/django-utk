@@ -28,7 +28,7 @@ The most useful tools for any django project
     - RandString
     - ForEach
 - Validators
- - Hashes
+  - Hashes
     - MD5Validator
     - SHA1Validator
     - SHA256Validator
