@@ -27,6 +27,18 @@ The most useful tools for any django project
     - RandChoice
     - RandString
     - ForEach
+- Validators
+ - Hashes
+    - MD5Validator
+    - SHA1Validator
+    - SHA256Validator
+    - SHA512Validator
+  - UUID
+    - UUID1Validator
+    - UUID2Validator
+    - UUID3Validator
+    - UUID4Validator
+    - UUID5Validator
 - Misc
   - Singleton 
 - Utils
