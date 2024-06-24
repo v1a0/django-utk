@@ -1,5 +1,5 @@
 import hashlib
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 
 from django_utk.tests.faker import RandString
 
@@ -21,7 +21,9 @@ class BaseHashSum(RandString, ABC):
         raise NotImplemented
 
     def wrapped(self, length: int, alphabet: str):
-        return self.hash_algo(super().wrapped(length=length, alphabet=alphabet).encode("utf-8")).hexdigest()
+        return self.hash_algo(
+            super().wrapped(length=length, alphabet=alphabet).encode("utf-8")
+        ).hexdigest()
 
     def __init__(self):
         super().__init__()
