@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from django_utk.tests import faker
-from django_utk.tests.run_n_times import run_1k_times
+from django_utk.tests.utils import run_1k_times
 
 CHOICES = [42, 42.42, 42j, "foo", True, None, type, Exception, (), [], {}, ...]
 

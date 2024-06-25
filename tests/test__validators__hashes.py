@@ -5,7 +5,7 @@ from unittest import TestCase
 from django.core.exceptions import ValidationError
 
 from django_utk.tests import faker
-from django_utk.tests.run_n_times import run_1k_times
+from django_utk.tests.utils import run_1k_times
 from django_utk.validators.hashes import (
     HashValidator,
     MD5Validator,
