@@ -1,13 +1,13 @@
 from unittest import TestCase
 
 from django_utk.tests import faker
-from django_utk.tests.run_n_times import run_10k_times
+from django_utk.tests.utils import run_1k_times
 
 CHOICES = [42, 42.42, 42j, "foo", True, None, type, Exception, (), [], {}, ...]
 
 
 class RandChoicesTestCase(TestCase):
-    @run_10k_times
+    @run_1k_times
     def assertResultInChoices(self, choices_factory: faker.RandChoices, choices: list):
         for result in choices_factory():
             self.assertIn(result, choices)

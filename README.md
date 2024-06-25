@@ -17,6 +17,18 @@ The most useful tools for any django project
     - DBViewManager
   - Fixes
     - DeleteUsingManager
+- Validators
+  - Hashes
+    - MD5Validator
+    - SHA1Validator
+    - SHA256Validator
+    - SHA512Validator
+  - UUID
+    - UUID1Validator
+    - UUID2Validator
+    - UUID3Validator
+    - UUID4Validator
+    - UUID5Validator
 - Tests
   - Factories ⭐️
   - faker
@@ -27,6 +39,19 @@ The most useful tools for any django project
     - RandChoice
     - RandString
     - ForEach
+    - MD5HashSum
+    - SHA1HashSum
+    - SHA256HashSum
+    - SHA512HashSum
+    - UUID4
+  - utils
+    - run_n_time
+    - run_10_time
+    - run_100_time
+    - run_1k_time
+    - run_10k_time
+    - run_100k_time
+    - run_1m_time
 - Misc
   - Singleton 
 - Utils
