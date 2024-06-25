@@ -39,6 +39,11 @@ The most useful tools for any django project
     - RandChoice
     - RandString
     - ForEach
+    - MD5HashSum
+    - SHA1HashSum
+    - SHA256HashSum
+    - SHA512HashSum
+    - UUID4
   - utils
     - run_n_time
     - run_10_time
