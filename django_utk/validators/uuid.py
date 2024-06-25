@@ -2,7 +2,7 @@ import uuid
 from abc import ABC, abstractmethod
 from functools import partial
 
-from validators.base import BaseValidator
+from django_utk.validators.base import BaseValidator
 
 
 def is_valid_uuid(value: str = None, version: int = 4) -> bool:
@@ -28,8 +28,8 @@ class UUIDValidator(BaseValidator, ABC):
     code = "invalid"
 
     @classmethod
-    @abstractmethod
     @property
+    @abstractmethod
     def uuid_version(cls) -> str:
         raise NotImplemented
 

@@ -1,7 +1,7 @@
 import hashlib
 from abc import ABC, abstractmethod
 
-from django_utk.tests.faker import RandString
+from django_utk.tests.faker.strings import RandString
 
 __all__ = [
     "MD5HashSum",
@@ -15,8 +15,8 @@ class BaseHashSum(RandString, ABC):
     LENGTH = 1024
 
     @classmethod
-    @abstractmethod
     @property
+    @abstractmethod
     def hash_algo(cls) -> callable:
         raise NotImplemented
 
@@ -26,7 +26,7 @@ class BaseHashSum(RandString, ABC):
         ).hexdigest()
 
     def __init__(self):
-        super().__init__()
+        super().__init__(length=self.LENGTH, alphabet=self.ALPHABET)
 
 
 class MD5HashSum(BaseHashSum):

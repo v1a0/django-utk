@@ -13,5 +13,5 @@ class BaseValidator(ABC):
         raise NotImplemented
 
     def __call__(self, value: str):
-        if self.validation(value):
+        if not self.validation(value):
             raise ValidationError(message=self.message, code=self.code)
