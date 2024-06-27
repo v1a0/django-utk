@@ -6,7 +6,6 @@ from typing import Callable
 from django_utk.tests.faker.base import DataFactory
 from django_utk.utils.typehint import typehint
 
-
 __all__ = [
     "RandString",
     "RandFilename",
@@ -111,12 +110,7 @@ class RandPath(RandString):
 
         return f"{path}{self.end}"
 
-    def __init__(
-        self,
-        root: str = None,
-        depth: int | Callable = None,
-        end: str = "/"
-    ):
+    def __init__(self, root: str = None, depth: int | Callable = None, end: str = "/"):
         from django_utk.tests.faker import RandInt
 
         self.root = root or ""

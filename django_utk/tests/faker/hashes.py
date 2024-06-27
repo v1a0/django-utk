@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 from django_utk.tests.faker.strings import RandString
 
-
 __all__ = [
     "MD5HashSum",
     "SHA1HashSum",
@@ -22,7 +21,9 @@ class BaseHashSum(RandString, ABC):
         raise NotImplemented
 
     def getter(self, *args, **kwargs):
-        return self.hash_algo(super().getter(*args, **kwargs).encode("utf-8")).hexdigest()
+        return self.hash_algo(
+            super().getter(*args, **kwargs).encode("utf-8")
+        ).hexdigest()
 
     def __init__(self):
         super().__init__(

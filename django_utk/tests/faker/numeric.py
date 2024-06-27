@@ -2,7 +2,6 @@ import random
 
 from django_utk.tests.faker.base import DataFactory
 
-
 __all__ = [
     "RandInt",
     "RandFloat",

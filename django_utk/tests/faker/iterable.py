@@ -1,4 +1,4 @@
-from typing import Generator, Callable, Iterable, List, Tuple
+from typing import Callable, Generator, Iterable, List, Tuple
 
 from django_utk.tests.factories import Factory
 from django_utk.tests.faker.base import DataFactory

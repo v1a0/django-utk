@@ -2,7 +2,7 @@ import string
 from unittest import TestCase
 
 from django_utk.tests import faker
-from django_utk.tests.utils import run_100_times, run_1k_times
+from django_utk.tests.utils import run_1k_times, run_100_times
 
 rand_int = faker.RandInt(1, 42)
 rand_str = faker.RandString()
