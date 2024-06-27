@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from functools import partial
+from typing import Callable
 
 from django.utils.deconstruct import deconstructible
 
@@ -19,20 +20,22 @@ __all__ = [
 ]
 
 
-def is_hash_valid(value: str, length: int):
+def is_hash_valid(value: str, *, length: int) -> bool:
     try:
         value = str(value)
         int(value, base=16)
-    except (ValueError, TypeError, TypeError):
+    except (ValueError, TypeError):
         return False
-    finally:
+    except Exception:
+        return False
+    else:
         return len(value) == length
 
 
-is_valid_md5 = partial(is_hash_valid, length=32)
-is_valid_sha1 = partial(is_hash_valid, length=40)
-is_valid_sha256 = partial(is_hash_valid, length=64)
-is_valid_sha512 = partial(is_hash_valid, length=128)
+is_valid_md5: Callable[[str], bool] = partial(is_hash_valid, length=32)
+is_valid_sha1: Callable[[str], bool] = partial(is_hash_valid, length=40)
+is_valid_sha256: Callable[[str], bool] = partial(is_hash_valid, length=64)
+is_valid_sha512: Callable[[str], bool] = partial(is_hash_valid, length=128)
 
 
 class HashValidator(BaseValidator, ABC):
