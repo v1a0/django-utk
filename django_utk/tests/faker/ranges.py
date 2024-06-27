@@ -1,3 +1,5 @@
+from typing import Callable
+
 from django_utk.tests.faker import RandInt
 from django_utk.utils.lazy import LazyCallable
 
@@ -16,7 +18,7 @@ class RandRange(LazyCallable):
             self.step,
         )
 
-    def __init__(self, start: int = 0, end: int | callable = None, step: int = 1):
+    def __init__(self, start: int = 0, end: int | Callable = None, step: int = 1):
         super(LazyCallable, self).__init__()
 
         self.start = start
