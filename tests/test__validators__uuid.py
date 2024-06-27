@@ -14,7 +14,7 @@ class UUIDValidationTestCase(TestCase):
 
     @run_1k_times
     def assertValid(self, algo: callable, validation: callable):
-        self.assertTrue(validation(algo()))
+        self.assertTrue(validation(value := algo()), f"{value=}")
 
     @run_1k_times
     def assertInvalid(self, validation: callable):
