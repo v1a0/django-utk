@@ -40,6 +40,10 @@ The most useful tools for any django project
     - RandString
     - RandFilename
     - RandRange
+    - RangGenerator
+    - RandIterable
+    - RandList
+    - RandTuple
     - ForEach
     - MD5HashSum
     - SHA1HashSum
