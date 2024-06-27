@@ -5,14 +5,14 @@ from django_utk.tests.faker.numeric import RandInt
 from django_utk.utils.lazy import Lazy, LazyCallable
 
 __all__ = [
-    "RangGenerator",
+    "RandGenerator",
     "RandIterable",
     "RandList",
     "RandTuple",
 ]
 
 
-class RangGenerator(LazyCallable):
+class RandGenerator(LazyCallable):
     def wrapped(self) -> Generator:
         return (self.item_factory() for _ in range(self.length))
 
@@ -21,13 +21,13 @@ class RangGenerator(LazyCallable):
         length: int,
         item_factory: Lazy | Factory | Callable = None,
     ):
-        super(RangGenerator, self).__init__()
+        super(RandGenerator, self).__init__()
 
         self.length = length
         self.item_factory = item_factory or RandInt()
 
 
-class RandIterable(RangGenerator):
+class RandIterable(RandGenerator):
     def wrapped(self) -> range:
         return self.cast(super().wrapped())
 
