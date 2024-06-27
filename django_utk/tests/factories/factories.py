@@ -3,8 +3,9 @@ from typing import Callable, Dict, List, Type
 
 from django.db import models
 
+from django_utk.tests.faker.base import DataFactory
 from django_utk.tests.faker.sequences import BaseSequence
-from django_utk.utils.lazy import Lazy, LazyCallable
+from django_utk.utils.lazy import Lazy
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint
 
@@ -75,7 +76,7 @@ class FactoryMeta(ABCMeta):
     @staticmethod
     def is_attr_method(attr_name: str, attr_value: any):
         return callable(attr_value) and not isinstance(
-            attr_value, (SubFactory, BaseSequence, Lazy, LazyCallable)
+            attr_value, (SubFactory, Lazy, DataFactory)
         )
 
 

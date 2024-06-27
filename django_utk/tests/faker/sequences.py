@@ -6,15 +6,20 @@ __all__ = [
     "ForEach",
 ]
 
+from django_utk.tests.faker.base import DataFactory
 
 T = TypeVar("T")
 
 
-class BaseSequence(ABC):
+class BaseSequence(DataFactory):
     def __init__(self, *args, **kwargs):
         self.sequencer: Generator[T, None, None] = self.get_sequencer()
+        super().__init__()
 
     def __call__(self):
+        return super().__call__()
+
+    def getter(self):
         return next(self.sequencer)
 
     @abstractmethod
@@ -23,6 +28,10 @@ class BaseSequence(ABC):
 
 
 class Sequence(BaseSequence):
+    @staticmethod
+    def default_handler(x: int) -> int:
+        return x
+
     def __init__(
         self,
         handler: Callable[[int], T] = None,
@@ -47,10 +56,6 @@ class Sequence(BaseSequence):
             while True:
                 yield self.handler(self.current)
                 self.current += self.step
-
-    @staticmethod
-    def default_handler(x: int) -> int:
-        return x
 
 
 class ForEach(BaseSequence):

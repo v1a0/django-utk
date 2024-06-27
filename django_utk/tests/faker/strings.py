@@ -1,25 +1,26 @@
 import random
 import string
 
-from django_utk.utils.lazy import LazyCallable
+from django_utk.tests.faker.base import DataFactory
+from django_utk.utils.typehint import typehint
+
 
 __all__ = [
     "RandString",
     "RandFilename",
 ]
 
-from django_utk.utils.typehint import typehint
 
-
-class RandString(LazyCallable):
+class RandString(DataFactory):
     ALPHABET = string.hexdigits
     LENGTH = 32
 
-    def wrapped(self):
+    @staticmethod
+    def getter(length: int, prefix: str, suffix: str, alphabet: str):
         return "{prefix}{string}{suffix}".format(
-            prefix=self.prefix,
-            string="".join(random.choices(self.alphabet, k=self.length)),
-            suffix=self.suffix,
+            prefix=prefix,
+            string="".join(random.choices(alphabet, k=length)),
+            suffix=suffix,
         )
 
     def __init__(
@@ -30,14 +31,14 @@ class RandString(LazyCallable):
         suffix: str = None,
         alphabet: str = None,
     ):
-        self.length = length
-        self.prefix = prefix or ""
-        self.suffix = suffix or ""
-        self.alphabet = alphabet or self.ALPHABET
+        super().__init__(
+            length=length,
+            prefix=prefix or "",
+            suffix=suffix or "",
+            alphabet=alphabet or self.ALPHABET,
+        )
 
-        super().__init__()
-
-    @typehint(LazyCallable)
+    @typehint(DataFactory)
     def __call__(self, *args, **kwargs) -> str:
         pass
 
@@ -70,13 +71,11 @@ class RandFilename(RandString):
         *["z", "zip", "7z"],
     ]
 
-    def wrapped(self):
+    def getter(self, *args, **kwargs):
         return "{name}.{extension}".format(
-            name=super().wrapped(), extension=self.get_extension()
+            name=super().getter(*args, **kwargs),
+            extension=random.choices(self.extensions)[0],
         )
-
-    def get_extension(self):
-        return random.choices(self.extensions)[0]
 
     def __init__(
         self,
@@ -85,6 +84,7 @@ class RandFilename(RandString):
         extensions: list[str] = None,
         alphabet: str = None,
     ):
+        self.extensions = extensions or self.EXTENSIONS
+
         super().__init__(length=length, alphabet=alphabet)
 
-        self.extensions = extensions or self.EXTENSIONS

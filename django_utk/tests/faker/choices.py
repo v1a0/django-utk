@@ -1,7 +1,7 @@
 import random
-from typing import Any, Callable, Iterable
+from typing import Any, Iterable
 
-from django_utk.utils.lazy import LazyCallable
+from django_utk.tests.faker.base import DataFactory
 
 __all__ = [
     "RandChoices",
@@ -9,8 +9,8 @@ __all__ = [
 ]
 
 
-class RandChoices(LazyCallable):
-    wrapped = random.choices
+class RandChoices(DataFactory):
+    getter = random.choices
 
     def __init__(
         self,
@@ -21,7 +21,10 @@ class RandChoices(LazyCallable):
         cum_weights: list[int] = None,
     ):
         super().__init__(
-            population=population, weights=weights, cum_weights=cum_weights, k=k
+            population=population,
+            weights=weights,
+            cum_weights=cum_weights,
+            k=k,
         )
 
 
@@ -34,11 +37,14 @@ class RandChoice(RandChoices):
         cum_weights: list[int] = None,
     ):
         super().__init__(
-            population=population, weights=weights, cum_weights=cum_weights, k=1
+            population=population,
+            weights=weights,
+            cum_weights=cum_weights,
+            k=1,
         )
 
-    def wrapped(self, **kwargs):
+    def getter(self, *args, **kwargs):
         try:
-            return super().wrapped(**kwargs)[0]
+            return super().getter(*args, **kwargs)[0]
         except IndexError:
             return None
