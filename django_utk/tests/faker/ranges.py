@@ -7,6 +7,8 @@ __all__ = [
 
 
 class RandRange(LazyCallable):
+    DEFAULT_MAX_SIZE = 100
+
     def wrapped(self) -> range:
         return range(
             self.start,
@@ -14,9 +16,9 @@ class RandRange(LazyCallable):
             self.step,
         )
 
-    def __init__(self, start: int = 0, end: int = None, step: int = 1):
+    def __init__(self, start: int = 0, end: int | callable = None, step: int = 1):
         super(LazyCallable, self).__init__()
 
         self.start = start
-        self.end = end or RandInt(start + 1, start + 100)
+        self.end = end or RandInt(start + 1, start + self.DEFAULT_MAX_SIZE)
         self.step = step
