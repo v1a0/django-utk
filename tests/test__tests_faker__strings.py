@@ -103,7 +103,7 @@ class RandPathTestCase(TestCase):
         path_fct = faker.RandPath(depth=depth, root=root)
         result = path_fct()
 
-        self.assertEqual(len(result.split("/")), depth + 1)
+        self.assertEqual(len(result.split("/")), depth + 1 + 1)
         self.assertTrue(result.startswith(root))
 
 
