@@ -1,27 +1,30 @@
 import uuid
 from abc import ABC, abstractmethod
 from functools import partial
+from typing import Callable
 
 from django_utk.validators.base import BaseValidator
 
 
-def is_valid_uuid(value: str = None, version: int = 4) -> bool:
+def is_valid_uuid(value: str = None, *args, version: int = 4) -> bool:
     """
     Validate value as UUID4
     """
     try:
-        uuid.UUID(value, version=version)
+        uuid.UUID(str(value), *args, version=version)
     except (ValueError, TypeError):
         return False
-    finally:
+    except Exception:
+        return False
+    else:
         return True
 
 
-is_valid_uuid1 = partial(is_valid_uuid, version=1)
-is_valid_uuid2 = partial(is_valid_uuid, version=2)
-is_valid_uuid3 = partial(is_valid_uuid, version=3)
-is_valid_uuid4 = partial(is_valid_uuid, version=4)
-is_valid_uuid5 = partial(is_valid_uuid, version=5)
+is_valid_uuid1: Callable[[str], bool] = partial(is_valid_uuid, version=1)
+is_valid_uuid2: Callable[[str], bool] = partial(is_valid_uuid, version=2)
+is_valid_uuid3: Callable[[str], bool] = partial(is_valid_uuid, version=3)
+is_valid_uuid4: Callable[[str], bool] = partial(is_valid_uuid, version=4)
+is_valid_uuid5: Callable[[str], bool] = partial(is_valid_uuid, version=5)
 
 
 class UUIDValidator(BaseValidator, ABC):
