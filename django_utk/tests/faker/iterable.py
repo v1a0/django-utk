@@ -1,4 +1,4 @@
-from typing import Generator, Callable
+from typing import Generator, Callable, Iterable, List, Tuple
 
 from django_utk.tests.factories import Factory
 from django_utk.tests.faker.base import DataFactory
@@ -12,9 +12,11 @@ __all__ = [
     "RandTuple",
 ]
 
+from django_utk.utils.typehint import typehint
+
 
 class RandGenerator(DataFactory):
-    def getter(self, item_factory: callable, length: int) -> Generator:
+    def getter(self, length: int, item_factory: callable) -> Generator:
         return (item_factory() for _ in range(length))
 
     def __init__(
@@ -26,6 +28,10 @@ class RandGenerator(DataFactory):
             length=length,
             item_factory=item_factory or RandInt(),
         )
+
+    @typehint(DataFactory)
+    def __call__(self) -> Generator:
+        pass
 
 
 class RandIterable(RandGenerator):
@@ -42,6 +48,10 @@ class RandIterable(RandGenerator):
 
         super(RandIterable, self).__init__(length=length, item_factory=item_factory)
 
+    @typehint(RandGenerator)
+    def __call__(self) -> Iterable:
+        pass
+
 
 class RandList(RandIterable):
     def __init__(
@@ -55,6 +65,10 @@ class RandList(RandIterable):
             cast=list,
         )
 
+    @typehint(RandGenerator)
+    def __call__(self) -> List:
+        pass
+
 
 class RandTuple(RandIterable):
     def __init__(
@@ -67,3 +81,7 @@ class RandTuple(RandIterable):
             item_factory=item_factory,
             cast=tuple,
         )
+
+    @typehint(RandGenerator)
+    def __call__(self) -> Tuple:
+        pass
