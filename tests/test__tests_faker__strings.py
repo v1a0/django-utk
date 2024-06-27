@@ -2,9 +2,10 @@ import string
 from unittest import TestCase
 
 from django_utk.tests import faker
-from django_utk.tests.utils import run_100_times
+from django_utk.tests.utils import run_100_times, run_1k_times
 
 rand_int = faker.RandInt(1, 42)
+rand_str = faker.RandString()
 
 
 class RandStringTestCase(TestCase):
@@ -66,3 +67,59 @@ class RandFilenameTestCase(TestCase):
         extensions = [rand_str() for _ in range(rand_int())]
         filename_fct = faker.RandFilename(extensions=extensions)
         self.assertResultValid(filename_fct, extensions=extensions)
+
+
+class RandPathTestCase(TestCase):
+    @run_1k_times
+    def test__default(self):
+        path_fct = faker.RandPath()
+        result = path_fct()
+
+        self.assertTrue(result.endswith("/"))
+
+        for i in range(2, len(result)):
+            self.assertNotIn(("/" * i), result)
+
+    @run_1k_times
+    def test__depth(self):
+        depth = rand_int()
+        path_fct = faker.RandPath(depth=depth)
+        result = path_fct()
+
+        self.assertEqual(len(result.split("/")), depth + 1)
+
+    @run_1k_times
+    def test__root(self):
+        root = rand_str()
+        path_fct = faker.RandPath(root=root)
+        result = path_fct()
+
+        self.assertTrue(result.startswith(root))
+
+    @run_1k_times
+    def test__depth_root(self):
+        root = rand_str()
+        depth = rand_int()
+        path_fct = faker.RandPath(depth=depth, root=root)
+        result = path_fct()
+
+        self.assertEqual(len(result.split("/")), depth + 1)
+        self.assertTrue(result.startswith(root))
+
+
+class RandFilePathTestCase(TestCase):
+    @run_1k_times
+    def test__default(self):
+        filepath_fct = faker.RandFilePath()
+        result = filepath_fct()
+
+        self.assertFalse(result.endswith("/"))
+
+        path, file = result.rsplit("/", 1)
+        filename, ext = file.split(".", 1)
+
+        # meh, I'm tired
+        self.assertTrue(bool(len(path)))
+        self.assertTrue(bool(len(file)))
+        self.assertTrue(bool(len(filename)))
+        self.assertTrue(bool(len(ext)))

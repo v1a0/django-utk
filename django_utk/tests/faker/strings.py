@@ -1,5 +1,7 @@
+import pathlib
 import random
 import string
+from typing import Callable
 
 from django_utk.tests.faker.base import DataFactory
 from django_utk.utils.typehint import typehint
@@ -8,6 +10,8 @@ from django_utk.utils.typehint import typehint
 __all__ = [
     "RandString",
     "RandFilename",
+    "RandPath",
+    "RandFilePath",
 ]
 
 
@@ -16,7 +20,10 @@ class RandString(DataFactory):
     LENGTH = 32
 
     @staticmethod
-    def getter(length: int, prefix: str, suffix: str, alphabet: str):
+    def getter(length: int | Callable, prefix: str, suffix: str, alphabet: str):
+        if callable(length):
+            length = length()
+
         return "{prefix}{string}{suffix}".format(
             prefix=prefix,
             string="".join(random.choices(alphabet, k=length)),
@@ -25,11 +32,12 @@ class RandString(DataFactory):
 
     def __init__(
         self,
-        length: int = LENGTH,
+        length: int | Callable = LENGTH,
         *,
         prefix: str = None,
         suffix: str = None,
         alphabet: str = None,
+        **kwargs,
     ):
         super().__init__(
             length=length,
@@ -88,3 +96,48 @@ class RandFilename(RandString):
 
         super().__init__(length=length, alphabet=alphabet)
 
+
+class RandPath(RandString):
+    ALPHABET = string.ascii_letters
+
+    def getter(self, *args, **kwargs):
+        if callable(self.depth):
+            depth = self.depth()
+        else:
+            depth = self.depth
+
+        directories = [super().getter(*args, **kwargs) for _ in range(depth)]
+        path = pathlib.Path().joinpath(self.root, *directories)
+
+        return f"{path}{self.end}"
+
+    def __init__(
+        self,
+        root: str = None,
+        depth: int | Callable = None,
+        end: str = "/"
+    ):
+        from django_utk.tests.faker import RandInt
+
+        self.root = root or ""
+        self.depth = depth or RandInt(0, 5)
+        self.end = end
+
+        super().__init__(length=RandInt(1, 10), alphabet=self.ALPHABET)
+
+
+class RandFilePath(RandPath):
+
+    def getter(self, *args, **kwargs):
+        path = super().getter(*args, **kwargs)
+        file = self.filename_factory()
+        return f"{path}{file}"
+
+    def __init__(
+        self,
+        root: str = None,
+        depth: int | Callable = None,
+    ):
+        self.filename_factory = RandFilename()
+
+        super().__init__(root=root, depth=depth)
