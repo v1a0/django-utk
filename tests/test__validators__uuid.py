@@ -3,10 +3,7 @@ from unittest import TestCase
 
 from django_utk.tests import faker
 from django_utk.tests.utils import run_1k_times
-from django_utk.validators.uuid import (
-    is_valid_uuid1,
-    is_valid_uuid4,
-)
+from django_utk.validators.uuid import is_valid_uuid1, is_valid_uuid4
 
 uuid_length = 36
 rand_int = faker.RandInt(1, (uuid_length - 1))
