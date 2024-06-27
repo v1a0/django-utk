@@ -8,7 +8,7 @@ __all__ = [
 
 
 class UUID4(RandString):
-    def wrapped(self, length: int, alphabet: str):
+    def wrapped(self):
         return str(uuid.uuid4().hex)
 
     def __init__(self):
