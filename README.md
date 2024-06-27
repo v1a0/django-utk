@@ -38,6 +38,8 @@ The most useful tools for any django project
     - RandChoices
     - RandChoice
     - RandString
+    - RandFilename
+    - RandRange
     - ForEach
     - MD5HashSum
     - SHA1HashSum
