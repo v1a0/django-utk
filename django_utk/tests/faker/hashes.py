@@ -2,6 +2,7 @@ import hashlib
 from abc import ABC, abstractmethod
 
 from django_utk.tests.faker.strings import RandString
+from django_utk.utils.typehint import typehint
 
 __all__ = [
     "MD5HashSum",
@@ -29,6 +30,10 @@ class BaseHashSum(RandString, ABC):
         super().__init__(
             length=self.LENGTH,
         )
+
+    @typehint(RandString)
+    def __call__(self) -> str:
+        pass
 
 
 class MD5HashSum(BaseHashSum):

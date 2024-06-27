@@ -8,6 +8,8 @@ __all__ = [
     "RandChoice",
 ]
 
+from django_utk.utils.typehint import typehint
+
 
 class RandChoices(DataFactory):
     getter = random.choices
@@ -26,6 +28,17 @@ class RandChoices(DataFactory):
             cum_weights=cum_weights,
             k=k,
         )
+
+    @typehint(DataFactory)
+    def __call__(
+        self,
+        *,
+        population: Iterable[Any],
+        k: int = 1,
+        weights: list[int] = None,
+        cum_weights: list[int] = None,
+    ) -> list:
+        pass
 
 
 class RandChoice(RandChoices):
@@ -48,3 +61,14 @@ class RandChoice(RandChoices):
             return super().getter(*args, **kwargs)[0]
         except IndexError:
             return None
+
+    @typehint(RandChoices)
+    def __call__(
+        self,
+        *,
+        population: Iterable[Any] = None,
+        k: int = 1,
+        weights: list[int] = None,
+        cum_weights: list[int] = None,
+    ):
+        pass

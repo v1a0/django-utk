@@ -1,12 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Generator, Iterable, TypeVar
 
+from django_utk.tests.faker.base import DataFactory
+from django_utk.utils.typehint import typehint
+
 __all__ = [
     "Sequence",
     "ForEach",
 ]
 
-from django_utk.tests.faker.base import DataFactory
 
 T = TypeVar("T")
 
@@ -57,6 +59,10 @@ class Sequence(BaseSequence):
                 yield self.handler(self.current)
                 self.current += self.step
 
+    @typehint(BaseSequence)
+    def __call__(self) -> any:
+        pass
+
 
 class ForEach(BaseSequence):
     def __init__(self, items: Iterable[T]):
@@ -66,3 +72,7 @@ class ForEach(BaseSequence):
     def get_sequencer(self) -> Generator[Any, None, None]:
         for item in self.items:
             yield item
+
+    @typehint(BaseSequence)
+    def __call__(self) -> any:
+        pass

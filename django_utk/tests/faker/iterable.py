@@ -65,7 +65,7 @@ class RandList(RandIterable):
             cast=list,
         )
 
-    @typehint(RandGenerator)
+    @typehint(RandIterable)
     def __call__(self) -> List:
         pass
 
@@ -82,6 +82,6 @@ class RandTuple(RandIterable):
             cast=tuple,
         )
 
-    @typehint(RandGenerator)
-    def __call__(self) -> Tuple:
+    @typehint(RandIterable)
+    def __call__(self, *, length: int) -> Tuple:
         pass

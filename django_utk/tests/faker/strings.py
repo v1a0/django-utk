@@ -46,7 +46,14 @@ class RandString(DataFactory):
         )
 
     @typehint(DataFactory)
-    def __call__(self, *args, **kwargs) -> str:
+    def __call__(
+        self,
+        *,
+        length: int | Callable = None,
+        prefix: str = None,
+        suffix: str = None,
+        alphabet: str = None,
+    ) -> str:
         pass
 
 
@@ -95,6 +102,15 @@ class RandFilename(RandString):
 
         super().__init__(length=length, alphabet=alphabet)
 
+    @typehint(RandString)
+    def __call__(
+        self,
+        *,
+        length: int | Callable = None,
+        alphabet: str = None,
+    ) -> str:
+        pass
+
 
 class RandPath(RandString):
     ALPHABET = string.ascii_letters
@@ -119,6 +135,10 @@ class RandPath(RandString):
 
         super().__init__(length=RandInt(1, 10), alphabet=self.ALPHABET)
 
+    @typehint(RandString)
+    def __call__(self) -> str:
+        pass
+
 
 class RandFilePath(RandPath):
 
@@ -135,3 +155,7 @@ class RandFilePath(RandPath):
         self.filename_factory = RandFilename()
 
         super().__init__(root=root, depth=depth)
+
+    @typehint(RandPath)
+    def __call__(self) -> str:
+        pass

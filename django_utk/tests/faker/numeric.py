@@ -1,6 +1,7 @@
 import random
 
 from django_utk.tests.faker.base import DataFactory
+from django_utk.utils.typehint import typehint
 
 __all__ = [
     "RandInt",
@@ -16,6 +17,10 @@ class RandInt(DataFactory):
     def __init__(self, a: int = MIN, b: int = MAX):
         super(RandInt, self).__init__(a=a, b=b)
 
+    @typehint(DataFactory)
+    def __call__(self, *, a: int = None, b: int = None) -> int:
+        pass
+
 
 class RandFloat(DataFactory):
     getter = random.uniform
@@ -24,3 +29,7 @@ class RandFloat(DataFactory):
 
     def __init__(self, a: float = MIN, b: float = MAX):
         super(RandFloat, self).__init__(a=a, b=b)
+
+    @typehint(DataFactory)
+    def __call__(self, *, a: float = None, b: float = None) -> float:
+        pass

@@ -2,6 +2,7 @@ from typing import Callable
 
 from django_utk.tests.faker import RandInt
 from django_utk.tests.faker.base import DataFactory
+from django_utk.utils.typehint import typehint
 
 __all__ = [
     "RandRange",
@@ -22,3 +23,13 @@ class RandRange(DataFactory):
             end=end or RandInt(start + 1, start + self.DEFAULT_MAX_SIZE),
             step=step,
         )
+
+    @typehint(DataFactory)
+    def __call__(
+        self,
+        *,
+        start: int = None,
+        end: int | Callable = None,
+        step: int = None,
+    ) -> range:
+        pass

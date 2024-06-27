@@ -4,7 +4,6 @@ from typing import Callable, Dict, List, Type
 from django.db import models
 
 from django_utk.tests.faker.base import DataFactory
-from django_utk.tests.faker.sequences import BaseSequence
 from django_utk.utils.lazy import Lazy
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint
