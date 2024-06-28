@@ -1,6 +1,7 @@
 import hashlib
 import random
 from unittest import TestCase
+from unittest.mock import MagicMock
 
 from django.core.exceptions import ValidationError
 
@@ -54,6 +55,19 @@ class HashValidationTestCase(TestCase):
     def test__is_hash_valid(self):
         hash_sum = str(hex(big_int()))
         self.assertTrue(is_hash_valid(value=hash_sum, length=len(hash_sum)))
+
+    def test__is_hash_valid__exception(self):
+        for ExceptionType in (
+            ValueError,
+            TypeError,
+            MagicMock(spec=Exception),  # some unexpected exception
+        ):
+            hash_sum = MagicMock()
+            hash_sum.__str__ = MagicMock()
+            hash_sum.__len__ = MagicMock()
+            hash_sum.__str__.side_effect = ExceptionType
+            hash_sum.__len__.return_value = rand_int()
+            self.assertFalse(is_hash_valid(value=hash_sum, length=len(hash_sum)))
 
 
 class HashValidatorsTestCase(TestCase):

@@ -7,7 +7,7 @@ packages = ["django_utk"]
 
 
 [project]
-version = "0.2.1"
+version = "0.3.0"
 name = "django-utk"
 description = "The most useful tools for any django project"
 authors = [
@@ -34,7 +34,7 @@ Homepage = "https://github.com/v1a0/django-utk"
 Issues = "https://github.com/v1a0/django-utk/issues"
 
 [tool.bumpver]
-current_version = "0.2.1"
+current_version = "0.3.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"
