@@ -1,3 +1,5 @@
+from django_utk.tests.faker.byteslike import *
+from django_utk.tests.faker.byteslike import __all__ as byteslike_all
 from django_utk.tests.faker.choices import *
 from django_utk.tests.faker.choices import __all__ as choices_all
 from django_utk.tests.faker.hashes import *
@@ -16,6 +18,7 @@ from django_utk.tests.faker.uuid import *
 from django_utk.tests.faker.uuid import __all__ as uuid_all
 
 __all__ = [
+    *byteslike_all,
     *choices_all,
     *hashes_all,
     *iterable_all,

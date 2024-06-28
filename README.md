@@ -45,6 +45,10 @@ The most useful tools for any django project
     - RandGenerator
     - RandIterable
     - ForEach
+    - RandBytes
+    - RandBytesIO
+    - RandFile (django)
+    - RandImageFile (django)
     - MD5HashSum
     - SHA1HashSum
     - SHA256HashSum
