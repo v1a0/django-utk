@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Callable, Any
+from typing import Any, Callable, TypeVar
 
 from django_utk.utils.typehint import typehint
 
@@ -27,7 +27,7 @@ class DataFactoryMixin(ABC):
 
 
 class TypeCasting(DataFactoryMixin):
-    cast: CastType = (lambda x: x)
+    cast: CastType = lambda x: x
 
     def getter(self, *args, **kwargs):
         return self.cast(super().getter(*args, **kwargs))

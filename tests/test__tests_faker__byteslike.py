@@ -7,7 +7,6 @@ import django.core.files.images
 from django_utk.tests import faker
 from django_utk.tests.utils import run_1k_times
 
-
 big_int = faker.RandInt(1, 10000)
 rand_str = faker.RandString()
 

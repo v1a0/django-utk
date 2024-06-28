@@ -1,15 +1,14 @@
-import random
 import io
+import random
 from typing import Callable
 
 import django.core.files
 import django.core.files.images
 
+from django_utk.tests.faker.base import DataFactory, TypeCasting
 from django_utk.tests.faker.numeric import RandInt
 from django_utk.tests.faker.strings import RandFilename
-from django_utk.tests.faker.base import DataFactory, TypeCasting
 from django_utk.utils.typehint import typehint
-
 
 __all__ = [
     "RandBytes",
@@ -58,7 +57,6 @@ class RandFile(RandBytesIO):
         self,
         n: int | DataFactory | Callable = None,
         name: str | DataFactory | Callable = None,
-
     ):
         if name is None:
             name = RandFilename()
@@ -78,7 +76,17 @@ class RandFile(RandBytesIO):
 class RandImageFile(RandFile):
     local_cast = django.core.files.images.ImageFile
     IMAGE_EXTENSIONS = [
-        'jpg', 'jpeg', 'png', 'gif', 'bmp', 'tif', 'tiff', 'webp', 'svg', 'ico', 'heic',
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "bmp",
+        "tif",
+        "tiff",
+        "webp",
+        "svg",
+        "ico",
+        "heic",
     ]
 
     def __init__(
