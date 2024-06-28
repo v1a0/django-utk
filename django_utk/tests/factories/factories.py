@@ -54,9 +54,13 @@ class FactoryMeta(ABCMeta):
 
             for attr_name, attr_value in attrs.items():
 
-                is_attr_method = FactoryMeta.is_attr_method(attr_name, attr_value)
+                is_field = FactoryMeta.is_field_attr(
+                    attr_name,
+                    attr_value,
+                    attrs_list=new_class._meta.fields,
+                )
 
-                if not is_attr_method:
+                if is_field:
                     new_class._meta.fields_set[attr_name] = FieldFactory.from_any(
                         attr_value
                     )
@@ -73,10 +77,19 @@ class FactoryMeta(ABCMeta):
         return new_class
 
     @staticmethod
-    def is_attr_method(attr_name: str, attr_value: any):
-        return callable(attr_value) and not isinstance(
-            attr_value, (SubFactory, Lazy, DataFactory)
-        )
+    def is_field_attr(attr_name: str, attr_value: any, attrs_list: list[str]):
+        if attrs_list is not None:
+            # attr is mentioned in Factory.Meta.fields
+            return attr_name in attrs_list
+        elif attr_name.startswith("__"):
+            # attr is private
+            return False
+        elif callable(attr_value):
+            # attr is method or unknown callable property
+            return isinstance(attr_value, (Lazy, DataFactory))
+        else:
+            # attr is set straight
+            return True
 
 
 class BaseFactory(ABC):
