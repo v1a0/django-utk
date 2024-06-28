@@ -37,7 +37,7 @@ class FactoryTestCase(TestCase):
             self.assertEqual(kwargs["age"], person_age)
             self.assertEqual(kwargs["friends"], person_fiends)
             self.assertEqual(
-                len(kwargs) - 2,  # MagicMock's internal kwargs
+                len(kwargs),
                 len([person_name, person_age, person_fiends]),
             )
 

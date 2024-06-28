@@ -13,6 +13,10 @@ class DataFactory(ABC):
     def getter(self, *args, **kwargs):
         raise NotImplemented
 
+    @classmethod
+    def get(cls, *args, **kwargs):
+        return cls(*args, **kwargs)()
+
     def __call__(self, **kwargs):
         kwargs = {**self.kwargs, **kwargs}
         return self.getter(*self.args, **kwargs)
