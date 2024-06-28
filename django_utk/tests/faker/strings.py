@@ -121,7 +121,9 @@ class RandPath(RandString):
         else:
             depth = self.depth
 
-        directories = [super(RandPath, self).getter(*args, **kwargs) for _ in range(depth)]
+        directories = [
+            super(RandPath, self).getter(*args, **kwargs) for _ in range(depth)
+        ]
         path = pathlib.Path().joinpath(self.root, *directories)
 
         return f"{path}{self.end}"
