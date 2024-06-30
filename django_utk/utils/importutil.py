@@ -1,9 +1,7 @@
 import importlib
 import types
 
-__all__ = [
-    "import_modules"
-]
+__all__ = ["import_modules"]
 
 
 def _get_submodules(root: str) -> list[str]:
