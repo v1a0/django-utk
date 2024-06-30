@@ -31,16 +31,27 @@ def typehint(typed_method: callable = None, *, source: type = None):
     """
 
     if not typed_method and not source:
-        raise TypeError(
+        raise ValueError(
             f"{typehint.__repr__()} decorator require at least one of two arguments: 'typed_method' or 'source'"
         )
 
     if isinstance(typed_method, type):
+        """
+        Handle source as first argument
+
+        >>> class Child(Parent):
+        >>>     @typehint(Parent)
+        >>>     def method(...):
+        >>>         pass
+        """
         typed_method, source = None, typed_method
 
     def typehint_wrapper(method: callable):
         if source:
-            super_proxy = wraps(method)(getattr(source, method.__name__))
+            super_method = getattr(source, method.__name__)
+            # patch for class-methods
+            super_method = getattr(super_method, "__func__", super_method)
+            super_proxy = wraps(method)(super_method)
 
         else:
 
@@ -48,7 +59,9 @@ def typehint(typed_method: callable = None, *, source: type = None):
             def super_proxy(self, *args, **kwargs):
                 if isinstance(self, type):
                     cls = self
-                    args = (self, *args)
+
+                    if method.__name__ == "__new__":
+                        args = (cls, *args)
                 else:
                     cls = type(self)
 
