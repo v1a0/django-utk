@@ -113,7 +113,7 @@ class BaseFactory(ABC):
             },
             **{
                 kwarg_name: FieldFactory.from_any(kwarg_value)
-                for kwarg_name, kwarg_value in kwargs
+                for kwarg_name, kwarg_value in kwargs.items()
             },
         }
 
