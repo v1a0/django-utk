@@ -112,7 +112,7 @@ class BaseFactory(ABC):
                 for field_name, field_getter in cls.get_fields_defaults().items()
             },
             **{
-                kwarg_name: FieldFactory.from_any(kwarg_value)
+                kwarg_name: FieldFactory.from_any(kwarg_value)()
                 for kwarg_name, kwarg_value in kwargs.items()
             },
         }
