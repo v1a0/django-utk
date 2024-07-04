@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from functools import partial
 from typing import Callable
 
+from django.utils.deconstruct import deconstructible
+
 from django_utk.validators.base import BaseValidator
 
 
@@ -42,26 +44,31 @@ class UUIDValidator(BaseValidator, ABC):
         return f"Invalid UUID{cls.uuid_version}"
 
 
+@deconstructible
 class UUID1Validator(UUIDValidator):
     uuid_version = 1
     validation = is_valid_uuid1
 
 
+@deconstructible
 class UUID2Validator(UUIDValidator):
     uuid_version = 2
     validation = is_valid_uuid2
 
 
+@deconstructible
 class UUID3Validator(UUIDValidator):
     uuid_version = 3
     validation = is_valid_uuid3
 
 
+@deconstructible
 class UUID4Validator(UUIDValidator):
     uuid_version = 4
     validation = is_valid_uuid4
 
 
+@deconstructible
 class UUID5Validator(UUIDValidator):
     uuid_version = 5
     validation = is_valid_uuid5
