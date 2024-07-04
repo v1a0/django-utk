@@ -53,6 +53,7 @@ class HashValidator(BaseValidator, ABC):
         return f"Invalid {cls.algo_name.upper()} sum"
 
 
+@deconstructible
 class MD5Validator(HashValidator):
     algo_name = "md5"
     validation = is_valid_md5
