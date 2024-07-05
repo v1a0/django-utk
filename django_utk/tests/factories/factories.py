@@ -3,7 +3,6 @@ from typing import Callable, Dict, List, Type
 
 from django.db import models
 
-from django_utk.tests.faker.base import DataFactory
 from django_utk.utils.lazy import Lazy
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint
@@ -78,6 +77,8 @@ class FactoryMeta(ABCMeta):
 
     @staticmethod
     def is_field_attr(attr_name: str, attr_value: any, attrs_list: list[str]):
+        from django_utk.tests.faker.base import DataFactory
+
         if attrs_list is not None:
             # attr is mentioned in Factory.Meta.fields
             return attr_name in attrs_list
