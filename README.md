@@ -68,7 +68,7 @@ The most useful tools for any django project
   - typehint
   - get_model_meta
   - import_modules
-  - popitem
+  - popattr
   - Lazy
   - env
     - PYTHON_VERSION
