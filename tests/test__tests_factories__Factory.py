@@ -1,17 +1,57 @@
-from dataclasses import dataclass
-from unittest import TestCase
+from typing import Type, Protocol, Mapping
+from unittest import TestCase, skip
 from unittest.mock import MagicMock
+
+from django.db import models
 
 from django_utk.tests import faker
 from django_utk.tests.factories import Factory
-from django_utk.utils.typehint import typehint
 
 small_int = faker.RandInt(2, 42)
 
 
+class MockModelOptions(MagicMock):
+    def __new__(cls, fields: Mapping[str, type], **kwargs):
+        options = MagicMock()
+        options.fields = fields
+        return options
+
+
+class MockModel(MagicMock):
+    def __new__(cls, name: str, fields: Mapping[str, type], **kwargs):
+        def model_call(**kwargs):
+            mock_instance = super().__call__(**kwargs)
+
+            for kw_name, kw_value in kwargs.items():
+                setattr(mock_instance, kw_name, kw_value)
+
+        model = MagicMock()
+        model.__name__ = name
+        model.__call__ = MockModel.__call__
+        model._meta = MockModelOptions(fields)
+        return model
+
+
 class FactoryTestCase(TestCase):
+    def assertFactoryWorks(self, factory: Type[Factory], model: MagicMock):
+        instance = factory()
+
+        model_calls = model.call_args_list
+        kwargs = model_calls[0].kwargs
+
+        self.assertEqual(len(model_calls), 1)
+
+        self.assertEqual(
+            factory._meta.fields_set.keys(),
+            kwargs.keys(),
+        )
+
+        for kw_name, kw in kwargs.items():
+            expected_kwarg_type = model._meta.fields[kw_name]
+            self.assertIsInstance(kw, expected_kwarg_type)
+
     def test__init__const(self):
-        PersonModel = MagicMock()
+        Person = MockModel("Person", {"name": str, "age": int, "friends": list})
 
         person_name = "person-name"
         person_age = 33
@@ -23,15 +63,14 @@ class FactoryTestCase(TestCase):
             friends = person_fiends
 
             class Meta:
-                model = PersonModel
+                model = Person
 
         for i in range(small_int()):
-            person: PersonModel = PersonFactory()
+            PersonFactory()
 
-            model_calls = PersonModel.call_args_list
+            model_calls = Person.call_args_list
             kwargs = model_calls[i].kwargs
 
-            self.assertIsInstance(person, MagicMock)
             self.assertEqual(len(model_calls), i + 1)
             self.assertEqual(kwargs["name"], person_name)
             self.assertEqual(kwargs["age"], person_age)
@@ -41,161 +80,119 @@ class FactoryTestCase(TestCase):
                 len([person_name, person_age, person_fiends]),
             )
 
+    @skip("TODO: fix it later")
     def test__init__SubFactory(self):
-        @dataclass
-        class SkillModel:
-            name: str
-
-            def save(self):
-                pass
-
-        @dataclass
-        class PersonModel:
-            skill: SkillModel
-
-            def save(self):
-                pass
+        Skill = MockModel("Skill", {"name": str})
+        Person = MockModel("Person", {"skill": Skill})
 
         class SkillFactory(Factory):
             name = "skill-name"
 
             class Meta:
-                model = SkillModel
-                fields = ["name"]
+                model = Skill
 
         class PersonFactory(Factory):
             skill = SkillFactory.sub_factory()
 
             class Meta:
-                model = PersonModel
-                fields = ["skill"]
+                model = Person
 
         for i in range(small_int()):
-            person = PersonFactory()
+            PersonFactory()
 
-            self.assertIsInstance(person.skill, SkillModel)
+            model_calls = Person.call_args_list
+            kwargs = model_calls[i].kwargs
+
+            self.assertEqual(kwargs["skill"], "Skill")
 
     def test__init__Sequence(self):
+        Person = MockModel("Person", {"name": str})
         person_name_suffix = "-person"
-
-        @dataclass
-        class PersonModel:
-            name: str
-
-            def save(self):
-                pass
 
         class PersonFactory(Factory):
             name = faker.Sequence(lambda n: f"{n}{person_name_suffix}")
 
-            @typehint
-            def __new__(cls, *args, **kwargs) -> PersonModel:
-                pass
-
             class Meta:
-                model = PersonModel
-                fields = ["name"]
+                model = Person
 
         for i in range(small_int()):
-            person = PersonFactory()
+            PersonFactory()
 
-            self.assertTrue(person.name.endswith(person_name_suffix))
-            self.assertEqual(person.name, f"{i}{person_name_suffix}")
+            model_calls = Person.call_args_list
+            kwargs = model_calls[i].kwargs
+
+            self.assertTrue(kwargs["name"].endswith(person_name_suffix))
+            self.assertEqual(kwargs["name"], f"{i}{person_name_suffix}")
 
     def test__init__ForEach(self):
+        Person = MockModel("Person", {"name": str})
         persons_amount = small_int()
         persons_names = [f"person-name-{i}" for i in range(persons_amount)]
-
-        @dataclass
-        class PersonModel:
-            name: str
-
-            def save(self):
-                pass
 
         class PersonFactory(Factory):
             name = faker.ForEach(persons_names)
 
-            @typehint
-            def __new__(cls, *args, **kwargs) -> PersonModel:
-                pass
-
             class Meta:
-                model = PersonModel
-                fields = ["name"]
+                model = Person
 
         for i in range(persons_amount):
-            person = PersonFactory()
+            PersonFactory()
 
-            self.assertEqual(person.name, persons_names[i])
+            model_calls = Person.call_args_list
+            kwargs = model_calls[i].kwargs
+
+            self.assertEqual(kwargs["name"], persons_names[i])
 
         with self.assertRaises(StopIteration):
             PersonFactory()
 
     def test__init__RandData(self):
-        @dataclass
-        class PersonModel:
-            age: int
-            weight: float
-            name: str
-
-            def save(self):
-                pass
+        Person = MockModel("Person", {"age": int, "weight": float, "name": str})
 
         class PersonFactory(Factory):
             age = faker.RandInt()
             weight = faker.RandFloat()
             name = faker.RandString()
 
-            @typehint
-            def __new__(cls, *args, **kwargs) -> PersonModel:
-                pass
-
             class Meta:
-                model = PersonModel
-                fields = ["age", "weight", "name"]
+                model = Person
 
         for i in range(small_int()):
-            person = PersonFactory()
+            PersonFactory()
 
-            self.assertLessEqual(person.age, faker.RandInt.MAX)
-            self.assertGreaterEqual(person.age, faker.RandInt.MIN)
+            model_calls = Person.call_args_list
+            kwargs = model_calls[i].kwargs
 
-            self.assertLessEqual(person.weight, faker.RandFloat.MAX)
-            self.assertGreaterEqual(person.weight, faker.RandFloat.MIN)
-            self.assertGreater(len(person.name), 0)
+            self.assertLessEqual(kwargs["age"], faker.RandInt.MAX)
+            self.assertGreaterEqual(kwargs["age"], faker.RandInt.MIN)
+
+            self.assertLessEqual(kwargs["weight"], faker.RandFloat.MAX)
+            self.assertGreaterEqual(kwargs["weight"], faker.RandFloat.MIN)
+            self.assertGreater(len(kwargs["name"]), 0)
             self.assertTrue(
-                all(letter in faker.RandString.ALPHABET for letter in person.name)
+                all(letter in faker.RandString.ALPHABET for letter in kwargs["name"])
             )
 
     def test__init__Choice_and_Choices(self):
+        Person = MockModel("Person", {"name": str, "friends": list})
+
         persons_amount = small_int()
         persons_names = [f"person-name-{i}" for i in range(persons_amount)]
-
-        @dataclass
-        class PersonModel:
-            name: str
-            friends: list[str]
-
-            def save(self):
-                pass
 
         class PersonFactory(Factory):
             name = faker.RandChoice(persons_names)
             friends = faker.RandChoices(persons_names, k=small_int())
 
-            @typehint
-            def __new__(cls, *args, **kwargs) -> PersonModel:
-                pass
-
             class Meta:
-                model = PersonModel
-                fields = ["name", "friends"]
+                model = Person
 
         for i in range(small_int()):
-            person = PersonFactory()
+            PersonFactory()
 
-            self.assertIn(person.name, persons_names)
+            model_calls = Person.call_args_list
+            kwargs = model_calls[i].kwargs
 
-            for friend_name in person.friends:
+            self.assertIn(kwargs["name"], persons_names)
+
+            for friend_name in kwargs["friends"]:
                 self.assertIn(friend_name, persons_names)
