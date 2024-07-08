@@ -120,6 +120,7 @@ class BaseFactory(ABC):
             **{
                 field_name: field_getter()
                 for field_name, field_getter in cls.get_fields_defaults().items()
+                if field_name not in kwargs
             },
             **{
                 kwarg_name: FieldFactory.from_any(kwarg_value)()
