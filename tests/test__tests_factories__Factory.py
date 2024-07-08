@@ -1,4 +1,4 @@
-from typing import Type, Protocol, Mapping
+from typing import Mapping, Protocol, Type
 from unittest import TestCase, skip
 from unittest.mock import MagicMock
 
