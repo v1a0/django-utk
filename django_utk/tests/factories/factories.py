@@ -67,7 +67,7 @@ class FactoryMeta(ABCMeta):
                 if _meta.validate_model_fields:
                     assert attr_name in _meta.model._meta.fields, FieldDoesNotExist(
                         f"Model {_meta.model.__name__} doesn't have field named {attr_name!r}, "
-                        f"only: {', '.join(_meta.model._meta.fields.keys())}"
+                        f"only: {', '.join(_meta.model._meta.fields)}"
                     )
 
                 _meta.fields_set[attr_name] = FieldFactory.from_any(attr_value)
