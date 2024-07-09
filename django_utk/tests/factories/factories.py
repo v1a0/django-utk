@@ -5,7 +5,7 @@ from typing import Callable, Dict, List, Type
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 
-from django_utk.db.models.utils import get_model_fields
+from django_utk.tests.factories.utils import get_model_fields
 from django_utk.utils.lazy import Lazy
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint

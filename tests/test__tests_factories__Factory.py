@@ -2,7 +2,7 @@ from typing import Mapping, Protocol, Type
 from unittest import TestCase, skip
 from unittest.mock import MagicMock
 
-from db.models.utils import get_model_fields
+from django_utk.tests.factories.utils import get_model_fields
 from django.db import models
 
 from django_utk.tests import faker
