@@ -6,14 +6,26 @@ from django.db import models
 
 from django_utk.tests import faker
 from django_utk.tests.factories import Factory
+from django_utk.tests.factories.utils import get_model_fields
 
 small_int = faker.RandInt(2, 42)
+
+
+class MockModelField(MagicMock):
+    def __new__(cls, name: str, _type):
+        options = MagicMock()
+        options.name = name
+        options.type = _type
+        return options
 
 
 class MockModelOptions(MagicMock):
     def __new__(cls, fields: Mapping[str, type], **kwargs):
         options = MagicMock()
-        options.fields = fields
+        options.fields = (
+            MockModelField(field_name, field_type)
+            for field_name, field_type in fields.items()
+        )
         return options
 
 
@@ -45,9 +57,10 @@ class FactoryTestCase(TestCase):
             factory._meta.fields_set.keys(),
             kwargs.keys(),
         )
+        expected_fields = get_model_fields(model)
 
         for kw_name, kw in kwargs.items():
-            expected_kwarg_type = model._meta.fields[kw_name]
+            expected_kwarg_type = expected_fields[kw_name]
             self.assertIsInstance(kw, expected_kwarg_type)
 
     def test__init__const(self):
