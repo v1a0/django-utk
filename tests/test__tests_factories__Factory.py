@@ -2,11 +2,11 @@ from typing import Mapping, Protocol, Type
 from unittest import TestCase, skip
 from unittest.mock import MagicMock
 
-from django_utk.tests.factories.utils import get_model_fields
 from django.db import models
 
 from django_utk.tests import faker
 from django_utk.tests.factories import Factory
+from django_utk.tests.factories.utils import get_model_fields
 
 small_int = faker.RandInt(2, 42)
 
