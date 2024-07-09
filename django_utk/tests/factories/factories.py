@@ -5,6 +5,7 @@ from typing import Callable, Dict, List, Type
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 
+from django_utk.db.models.utils import get_model_fields
 from django_utk.utils.lazy import Lazy
 from django_utk.utils.popattr import popattr
 from django_utk.utils.typehint import typehint
@@ -65,7 +66,8 @@ class FactoryMeta(ABCMeta):
                     continue
 
                 if _meta.validate_model_fields:
-                    assert attr_name in _meta.model._meta.fields, FieldDoesNotExist(
+                    model_fields = get_model_fields(_meta.model)
+                    assert attr_name in model_fields, FieldDoesNotExist(
                         f"Model {_meta.model.__name__} doesn't have field named {attr_name!r}, "
                         f"only: {', '.join(_meta.model._meta.fields)}"
                     )
