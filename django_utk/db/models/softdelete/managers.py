@@ -10,7 +10,7 @@ __all__ = [
 
 
 class BaseSoftDeleteManager(utk_models.BaseManager):
-    QuerySetClass = SoftDeleteQuerySet
+    queryset_class = SoftDeleteQuerySet
 
     def get_queryset(self):
         return super().get_queryset().filter(deleted_at__isnull=True)

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from django_utk.db.models.softdelete import SoftDeleteQuerySet
+from django_utk.db.models.softdelete.querysets import SoftDeleteQuerySet
 from django_utk.db.models.softdelete.managers import SoftDeleteManager
 from django_utk.db.models.utils import get_model_meta as meta
 

@@ -1,4 +1,8 @@
-from typing import Never, NoReturn
+from django_utk.utils.env import PYTHON_VERSION
+if PYTHON_VERSION >= (3, 11):
+    from typing import Never, NoReturn
+else:
+    Never, NoReturn = any, any
 
 from django.db import models
 

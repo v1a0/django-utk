@@ -1,4 +1,8 @@
-from typing import Self
+from django_utk.utils.env import PYTHON_VERSION
+if PYTHON_VERSION >= (3, 11):
+    from typing import Self
+else:
+    Self = any
 
 from django.db import models
 from django.utils import timezone
