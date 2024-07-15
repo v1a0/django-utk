@@ -1,4 +1,3 @@
-
 from django.db import models
 
 import django_utk.db.models as utk_models

@@ -2,7 +2,6 @@ import abc
 
 from django.db import models
 
-
 __all__ = [
     "ABCModel",
     "ABCModelMeta",

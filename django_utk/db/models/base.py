@@ -2,11 +2,7 @@ from typing import Type
 
 from django.db import models
 
-
-__all__ = [
-    "BaseManager",
-    "Manager"
-]
+__all__ = ["BaseManager", "Manager"]
 
 
 class BaseManager:
@@ -18,4 +14,3 @@ class BaseManager:
 
 class Manager(BaseManager, models.Manager):
     pass
-
