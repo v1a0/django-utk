@@ -1,6 +1,7 @@
-from common.abc import ABCManager
+
 from django.db import models
 
+import django_utk.db.models as utk_models
 from django_utk.db.models.softdelete.querysets import SoftDeleteQuerySet
 
 __all__ = [
@@ -9,7 +10,7 @@ __all__ = [
 ]
 
 
-class BaseSoftDeleteManager(ABCManager):
+class BaseSoftDeleteManager(utk_models.BaseManager):
     QuerySetClass = SoftDeleteQuerySet
 
     def get_queryset(self):

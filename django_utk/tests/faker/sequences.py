@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Any, Callable, Generator, Iterable, TypeVar
 
 from django_utk.tests.faker.base import DataFactory
