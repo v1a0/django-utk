@@ -1,6 +1,5 @@
-from django.db import connection
+from django.db import connection, models
 
-from django_utk.db.models import ModelMixin
 from django_utk.db.models.utils import get_model_meta as meta
 
 __all__ = [
@@ -8,7 +7,7 @@ __all__ = [
 ]
 
 
-class MaterializedDBViewModelMixin(ModelMixin):
+class MaterializedDBViewModelMixin(models.Model):
     @classmethod
     def refresh(cls):
         with connection.cursor() as cursor:

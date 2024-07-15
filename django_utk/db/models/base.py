@@ -1,18 +1,16 @@
+from typing import Type
+
 from django.db import models
 
-from django_utk.db.models.meta import ABCModelMeta
-
-__all__ = [
-    "ABCModel",
-    "ModelMixin",
-]
+__all__ = ["BaseManager", "Manager"]
 
 
-class ABCModel(models.Model, metaclass=ABCModelMeta):
-    class Meta:
-        abstract = True
+class BaseManager:
+    queryset_class: Type[models.QuerySet] = models.QuerySet
+
+    def get_queryset(self) -> queryset_class:
+        return self.queryset_class(self.model, using=self._db)
 
 
-class ModelMixin(models.Model):
-    class Meta:
-        abstract = True
+class Manager(BaseManager, models.Manager):
+    pass
